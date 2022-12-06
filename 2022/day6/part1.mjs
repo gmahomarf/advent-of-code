@@ -16,6 +16,7 @@ for await (const line of input) {
         }
         if (Object.keys(o).length === len) {
             console.log(i);
+            console.log(buf.join(''));
             break;
         }
         buf.shift();
