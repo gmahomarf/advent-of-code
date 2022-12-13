@@ -1,6 +1,5 @@
 import { createReadStream } from 'node:fs';
 import readline from 'node:readline';
-import Graph from 'node-dijkstra';
 
 const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
 // const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
@@ -18,28 +17,31 @@ let start;
 let end;
 let a = 97 // 'a'.charChodeAt(0);
 
-let y = 0;
 for await (const line of input) {
+    const y = grid.length;
     grid.push(line.split('').map((c, x) => c === 'S' ? (start = `${x},${y}`, 0) : c === 'E' ? (end = `${x},${y}`, 25) : c.charCodeAt(0) - a));
-    y++;
 }
 
-const graph = new Graph();
-for (const y in grid) {
-    for (const x in grid[y]) {
-        const k = `${x},${y}`;
-        const node = new Map();
+const visited = new Set([start]);
+const pending = [{ v: start, depth: 0 }];
+let currNode;
 
-        for (const dir of Object.values(DIRECTIONS)) {
-            let k2 = [+x + dir[0], +y + dir[1]]
-            const n = grid[k2[1]]?.[k2[0]];
-            if (n >= 0 && n - grid[y][x] < 2) node.set(`${k2[0]},${k2[1]}`, 1);
+while (currNode = pending.shift()) {
+    if (currNode.v === end) {
+        console.log(currNode.depth);
+        break;
+    }
+    const [x, y] = currNode.v.split(',');
+
+    for (const dir of Object.values(DIRECTIONS)) {
+        let k2 = [+x + dir[0], +y + dir[1]]
+        const n = grid[k2[1]]?.[k2[0]];
+        if (n >= 0 && n - grid[y][x] < 2) {
+            const step = k2.join(',');
+            if (!visited.has(step)) {
+                pending.push({v: step, depth: currNode.depth + 1});
+                visited.add(step);
+            }
         }
-
-        graph.addNode(k, node);
     }
 }
-
-const path = graph.path(start, end);
-// console.log(path);
-console.log(path.length - 1);

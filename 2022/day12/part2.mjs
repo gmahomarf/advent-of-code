@@ -1,6 +1,5 @@
 import { createReadStream } from 'node:fs';
 import readline from 'node:readline';
-import Graph from 'node-dijkstra';
 
 const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
 // const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
@@ -12,7 +11,6 @@ const DIRECTIONS = {
     L: [-1, 0],
 }
 
-const PATH = [];
 const grid = [];
 const starts = [];
 let end;
@@ -24,26 +22,60 @@ for await (const line of input) {
     y++;
 }
 
-const graph = new Graph();
-for (const y in grid) {
-    for (const x in grid[y]) {
-        const k = `${x},${y}`;
-        const node = new Map();
+// Starting from end and finding the closest point at level 'a'
+function reverse() {
+    const visited = new Set([end]);
+    const pending = [{ v: end, depth: 0 }];
+    let currNode;
+    while (currNode = pending.shift()) {
+        const [x, y] = currNode.v.split(',');
+        if (grid[y][x] === 0) {
+            return currNode.depth;
+        }
 
         for (const dir of Object.values(DIRECTIONS)) {
             let k2 = [+x + dir[0], +y + dir[1]]
             const n = grid[k2[1]]?.[k2[0]];
-            if (n >= 0 && n - grid[y][x] < 2) node.set(`${k2[0]},${k2[1]}`, 1);
+            if (n >= 0 && grid[y][x] - n < 2) {
+                const step = k2.join(',');
+                if (!visited.has(step)) {
+                    pending.push({ v: step, depth: currNode.depth + 1 });
+                    visited.add(step);
+                }
+            }
         }
-
-        graph.addNode(k, node);
     }
 }
 
-const paths = starts
-    .map(s => ({path: graph.path(s, end), s}))
-    .filter(p => p.path)
-    .map(p => ({steps: p.path.length - 1, s: p.s}))
-    .sort((a,b) => a.steps - b.steps)
+// Find the shortest by checking all paths
+function min() {
+    let steps = Infinity;
+    for (const start of starts) {
+        const visited = new Set([start]);
+        const pending = [{ v: start, depth: 0 }];
+        let currNode;
+        while (currNode = pending.shift()) {
+            const [x, y] = currNode.v.split(',');
+            if (currNode.v === end) {
+                steps = currNode.depth < steps ? currNode.depth : steps;
+            }
 
-console.log(paths);
+            for (const dir of Object.values(DIRECTIONS)) {
+                let k2 = [+x + dir[0], +y + dir[1]]
+                const n = grid[k2[1]]?.[k2[0]];
+                if (n >= 0 && n - grid[y][x] < 2) {
+                    const step = k2.join(',');
+                    if (!visited.has(step)) {
+                        pending.push({ v: step, depth: currNode.depth + 1 });
+                        visited.add(step);
+                    }
+                }
+            }
+        }
+    }
+
+    return steps;
+}
+
+console.log('reverse', reverse());
+console.log('min', min());
