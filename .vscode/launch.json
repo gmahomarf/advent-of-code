@@ -16,7 +16,8 @@
             "env": {
                 "DEBUG": "1"
             },
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": []
         },
     ]
 }
