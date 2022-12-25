@@ -14,7 +14,7 @@
             "program": "${file}",
             "cwd": "${fileDirname}",
             "env": {
-                "DEBUG": "1"
+                // "DEBUG": "1"
             },
             "console": "integratedTerminal",
             "args": []

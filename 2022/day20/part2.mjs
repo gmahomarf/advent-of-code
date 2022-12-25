@@ -1,0 +1,119 @@
+import { createReadStream } from 'node:fs';
+import readline from 'node:readline';
+
+// const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
+const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+
+const KEY = 811589153;
+const ROUNDS = 10;
+
+class LoopedArray extends Array {
+    _left(v, n) {
+        let c = n % this.length;
+        let i = this.indexOf(v);
+        while (c--) {
+            if (i === 0) {
+                this.splice(-1, 0, this.shift())
+                i = this.length - 2
+            } else if (i === 1) {
+                this.push(v);
+                this.splice(1, 1);
+                i = this.length - 1
+            } else {
+                this[i] = this[i - 1];
+                this[i - 1] = v;
+                i--;
+            }
+        }
+    }
+
+    __left(v, n) {
+        let i = this.indexOf(v);
+        while (n--) {
+            if (i === 0) {
+                this.splice(-1, 0, this.shift())
+                i = this.length - 2
+            } else if (i === 1) {
+                this.push(v);
+                this.splice(1, 1);
+                i = this.length - 1
+            } else {
+                this[i] = this[i - 1];
+                this[i - 1] = v;
+                i--;
+            }
+        }
+    }
+
+    left(v, n) {
+        let c = n % this.length;
+        let i = this.indexOf(v);
+        if (i === 0) {
+            this.splice(-n, 0, this.splice(i, 1));
+        } else if (1 < i - c) {
+            this.splice(i + c - this.length, 0, this.splice(i, 1));
+        }
+    }
+
+    _right(v, n) {
+        let c = n % this.length;
+        let i = this.indexOf(v);
+        while (c--) {
+            if (i === this.length - 1) {
+                this.splice(1, 0, this.pop())
+                i = 1;
+            } else {
+                this[i] = this[i + 1];
+                this[i + 1] = v;
+                i++;
+            }
+        }
+    }
+
+    right(v, n) {
+        let c = n % this.length;
+        let i = this.indexOf(v);
+        if (this.length > i + c) {
+            this.splice(i + c - this.length, 0, this.splice(i, 1));
+        } else {
+            this.splice(i + c, 0, this.splice(i, 1));
+        }
+    }
+}
+
+async function run() {
+    const numbers = new LoopedArray();
+    const order = [];
+    for await (const line of input) {
+        const number = Object(+line * KEY);
+        numbers.push(number);
+        order.push(number);
+    }
+
+    let z;
+    for (let i = 0; i < ROUNDS; i++) {
+        for (const number of order) {
+            const value = number.valueOf();
+            if (value) {
+                if (value < 0) {
+                    numbers.left(number, -value);
+                } else {
+                    numbers.right(number, value);
+                }
+            }
+        }
+    }
+
+    console.log(numbers);
+    const iz = numbers.indexOf(z);
+    const oth = numbers[(iz + 1000) % numbers.length].valueOf();
+    const tth = numbers[(iz + 2000) % numbers.length].valueOf();
+    const thth = numbers[(iz + 3000) % numbers.length].valueOf();
+    console.log('  iz:', iz)
+    console.log('1000:', oth)
+    console.log('2000:', tth)
+    console.log('3000:', thth)
+    console.log(' sum:', oth + tth + thth)
+}
+
+await run();
