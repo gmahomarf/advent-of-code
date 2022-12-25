@@ -1,0 +1,106 @@
+import { createReadStream } from 'node:fs';
+import readline from 'node:readline';
+import { inspect } from 'node:util';
+
+// const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
+const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+
+const TIME = 30;
+const re = /^Valve ([A-Z]{2}) has flow rate=(\d+); tunnels? leads? to valves? (.*)$/;
+
+async function run() {
+    const valves = {}
+    const vlvs = [];
+    const distances = {};
+    for await (const line of input) {
+        const [_, valve, rate, tunnels] = re.exec(line);
+        vlvs.push(valves[valve] = {
+            valve,
+            rate: +rate,
+            tunnels: tunnels.split(',').map(t => t.trim()),
+        })
+    }
+    for (const v of vlvs) {
+        distances[v.valve] = Object.fromEntries(valves[v.valve].tunnels.map((t, i) => [t, { d: valves[t].rate === 0 ? 20 : 1, p: [t] }]));
+        distances[v.valve][v.valve] = { d: 0, p: [] };
+    }
+
+    vlvs.sort((a, b) => b.rate - a.rate);
+    const v = Object.keys(valves);
+    for (const k of v) {
+        for (const i of v) {
+            for (const j of v) {
+                distances[i][j] ||= { d: Infinity, p: [] }
+                distances[i][k] ||= { d: Infinity, p: [] }
+                distances[k][j] ||= { d: Infinity, p: [] }
+                if (distances[i][j].d > distances[i][k].d + distances[k][j].d) {
+                    distances[i][j].d = distances[i][k].d + distances[k][j].d;
+                    distances[i][j].p = distances[i][k].p.concat(distances[k][j].p)
+                }
+            }
+        }
+    }
+
+    console.log(inspect(distances, false, 4));
+    console.log(vlvs);
+
+    // for (const v of Object.values(valves)) {
+    //     v.tunnels.sort((a,b) => valves[b].rate - valves[a].rate);
+    // }
+
+    let valve = 'AA';
+    let openValves = {};
+    for (let i = TIME; i > 0; i--) {
+        const cv = valves[valve];
+        if (!openValves[valve] && cv.rate > 0) {
+
+        }
+        // let next = openValves[valve] ? null : valve;
+        // let next;
+        // let closed = cv.tunnels.filter(t => !openValves[t]).sort((a, b) => valves[b].rate - valves[a].rate);
+        // if (!openValves[valve]) {
+        //     if (closed.length) {
+        //         next = closed.find(t => valves[t].rate > cv.rate);
+        //         if (next) {
+        //             valve = next;
+        //         } else {
+        //             openValves[valve] = { rate: cv.rate, time: i };
+        //             // valve = closed[0];
+        //         }
+        //     } else {
+        //         // ???
+        //     }
+        // } else {
+        //     valve = closed[0];
+        // }
+
+        // if (!next) {
+        //     if (!openValves[valve]) { }
+        // }
+
+        // for (const tunnel of cv.tunnels) {
+        //     if (!openValves[tunnel] && valves[tunnel].rate > max) {
+        //         max = valves[tunnel].rate;
+        //         next = tunnel;
+        //         break;
+        //     }
+        // }
+        // if (next === valve) {
+        //     openValves[valve] = {rate: cv.rate, time: i };
+        // } else if (!next) {
+        //     next = cv.tunnels.find(t => !openValves[t]);
+        //     if (!next) {
+        //         next = cv.tunnels.find(t => valves[t].tunnels.some(t2 => !openValves[t2]));
+        //     }
+        //     valve ||= next;
+        // } else {
+        //     valve = next;
+        // }
+    }
+
+    // // console.log(valves)
+    // console.log(openValves)
+    // console.log(Object.values(openValves).reduce((a, b) => a + b.rate * b.time, 0))
+}
+
+run();
