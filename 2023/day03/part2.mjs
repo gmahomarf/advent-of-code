@@ -8,13 +8,13 @@ const gears = {};
 
 let height = 0;
 let width;
-const re = /(?<s>[^.\d])|(?<n>\d+)/g;
+const re = /(?<s>\*)|(?<n>\d+)/g;
 
 for await (const line of input) {
     let match;
 
     while (match = re.exec(line)) {
-        if (match.groups.s === '*') {
+        if (match.groups.s) {
             gears[`${match.index}x${height}`] = []
         } else {
             numbers.push({
