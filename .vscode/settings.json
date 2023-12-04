@@ -1,1 +1,4 @@
-{}
+{
+    "prettier.enable": false,
+    "javascript.format.enable": true
+}

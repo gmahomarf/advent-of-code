@@ -1,6 +1,6 @@
-import { readFile } from "node:fs/promises";
+import { readFile } from 'node:fs/promises';
 
-const input = await readFile("input.txt", "utf-8");
+const input = await readFile('input.txt', 'utf-8');
 
 let sum = 0;
 const digits = {
@@ -15,13 +15,13 @@ const digits = {
     nine: 9,
 };
 
-const re = new RegExp(`(${Object.keys(digits).join("|")})`, "g");
+const re = new RegExp(`(${Object.keys(digits).join('|')})`, 'g');
 
-for (const line of input.split("\n")) {
+for (const line of input.split('\n')) {
     const numbers = line
         .replace(re, (v) => digits[v] + v.slice(1))
         .replace(re, (v) => digits[v])
-        .split("")
+        .split('')
         .map(Number)
         .filter(Number.isFinite);
     const f = numbers.shift();

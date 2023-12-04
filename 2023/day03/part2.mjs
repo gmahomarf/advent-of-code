@@ -1,4 +1,4 @@
-import { createReadStream } from "node:fs";
+import { createReadStream } from 'node:fs';
 import { createInterface } from 'node:readline'
 
 const input = createInterface(createReadStream('input.txt', 'utf8'));

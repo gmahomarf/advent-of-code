@@ -1,6 +1,6 @@
-import { readFile } from "node:fs/promises";
+import { readFile } from 'node:fs/promises';
 
-const input = await readFile("input.txt", "utf-8");
+const input = await readFile('input.txt', 'utf-8');
 const limits = {
     red: 12,
     green: 13,
