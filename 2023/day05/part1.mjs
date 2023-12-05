@@ -58,7 +58,7 @@ function mapper(map, v) {
     for (const range of map) {
         if (v < range.src) break;
         if (v >= range.src) {
-            if (v <= range.src + range.n) {
+            if (v < range.src + range.n) {
                 return range.dest + v - range.src;
             }
         }
