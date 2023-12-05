@@ -17,7 +17,7 @@ parentPort.on('message', ({ seeds, maps, no, path }) => {
         }
     }
 
-    parentPort.postMessage(lowest);
+    parentPort.postMessage({ low: lowest, no });
 })
 
 function mapper(map, v) {
