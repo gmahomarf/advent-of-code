@@ -1,11 +1,18 @@
 import { createReadStream } from 'node:fs';
 import { createInterface } from 'node:readline';
 
+import { availableParallelism } from 'node:os';
+import WorkerPool from '../../utils/worker-pool.mjs';
+import { URL } from 'node:url';
+
+const cpus = availableParallelism();
+const pool = new WorkerPool(cpus, new URL('./runner.mjs', import.meta.url));
 const input = createInterface(createReadStream('input.txt', 'utf8'));
 
 const seeds = [];
 const maps = {};
 const path = [];
+let totalSeeds = 0;
 
 let map;
 for await (const line of input) {
@@ -40,36 +47,60 @@ for (const map of Object.values(maps)) {
 }
 
 let lowest = Infinity;
-for await (const seed of seedIterator(seeds)) {
-    let c = null;
-    for (const map of path) {
-        if (c === null) {
-            c = mapper(maps[map], seed);
-        } else {
-            c = mapper(maps[map], c);
+let finished = 0;
+let no = 0;
+for await (const batch of splitSeeds(seeds, Math.ceil(totalSeeds / cpus))) {
+    pool.runTask({ seeds: batch, maps, no: ++no, path }, (err, low) => {
+
+        lowest = Math.min(lowest, low);
+        console.log(`Finished batch ${no}: ${low}`);
+        console.log(`New lowest: ${lowest}`);
+        if (finished === 8) {
+            pool.close();
+            console.log(lowest);
+            process.exit();
         }
-    }
-    lowest = Math.min(lowest, c)
+    })
 }
 
-console.log(lowest)
+function* splitSeeds(seeds, batchSize) {
+    let batch = [];
+    let s;
+    let wanted = batchSize;
+    for (const seed of seeds) {
+        const s = { ...seed };
+        while (1) {
+            if (s.n >= wanted) {
+                batch.push({
+                    s: s.s,
+                    n: wanted
+                });
+                s.n -= wanted;
+                s.s += wanted;
 
-function mapper(map, v) {
-    for (const range of map) {
-        if (v < range.src) break;
-        if (v >= range.src) {
-            if (v < range.src + range.n) {
-                return range.dest + v - range.src;
+                yield batch;
+                batch = [];
+
+                wanted = batchSize;
+
+                if (s.n === 0) break;
+            } else {
+                batch.push({ ...s });
+                wanted -= s.n;
+                break;
             }
         }
     }
 
-    return v;
+    if (batch.length) {
+        yield batch;
+    }
 }
 
 function getSeeds(seeds) {
     const r = []
     for (let i = 0; i < seeds.length; i += 2) {
+        totalSeeds += seeds[i + 1];
         r.push({
             s: seeds[i],
             n: seeds[i + 1],
@@ -77,12 +108,4 @@ function getSeeds(seeds) {
     }
 
     return r;
-}
-
-function* seedIterator(seeds) {
-    for (const seed of seeds) {
-        for (let i = seed.s; i < seed.s + seed.n; i++) {
-            yield i;
-        }
-    }
 }
