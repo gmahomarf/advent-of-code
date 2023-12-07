@@ -47,7 +47,7 @@ function getStrength(hand) {
         const jokers = countMap.J;
         delete countMap.J;
         counts = Object.values(countMap).sort((a, b) => b - a);
-        counts[0] += jokers;
+        counts[0] = (counts[0] ?? 0) + jokers;
     } else {
         counts = Object.values(countMap);
     }
