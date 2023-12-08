@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const DIRECTIONS = {
     U: [0, -1],
@@ -17,7 +15,7 @@ let start;
 let end;
 let a = 97 // 'a'.charChodeAt(0);
 
-for await (const line of input) {
+for (const line of input.lines()) {
     const y = grid.length;
     grid.push(line.split('').map((c, x) => c === 'S' ? (start = `${x},${y}`, 0) : c === 'E' ? (end = `${x},${y}`, 25) : c.charCodeAt(0) - a));
 }
@@ -39,7 +37,7 @@ while (currNode = pending.shift()) {
         if (n >= 0 && n - grid[y][x] < 2) {
             const step = k2.join(',');
             if (!visited.has(step)) {
-                pending.push({v: step, depth: currNode.depth + 1});
+                pending.push({ v: step, depth: currNode.depth + 1 });
                 visited.add(step);
             }
         }

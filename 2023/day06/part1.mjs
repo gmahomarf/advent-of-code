@@ -1,7 +1,7 @@
-import { readFile } from 'node:fs/promises';
+import { getInput } from "../../utils/input.mjs";
 
-const input = await readFile('input.txt', 'utf8');
-const [times, distances] = input.split('\n').map(l => l.split(/ +/).slice(1).map(Number));
+const input = await getInput();
+const [times, distances] = [...input.lines()].map(l => l.split(/ +/).slice(1).map(Number));
 
 let r = 1;
 for (const [i, time] of times.entries()) {

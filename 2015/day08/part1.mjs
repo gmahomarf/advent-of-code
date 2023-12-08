@@ -1,11 +1,11 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = createInterface(createReadStream('input.txt', 'utf-8'));
+// const input = await getExampleInput();
+const input = await getInput();
 
 let sum = 0;
 
-for await (const line of input) {
+for (const line of input.lines()) {
     sum += line.length - eval(line).length;
 }
 

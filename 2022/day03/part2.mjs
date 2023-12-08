@@ -1,13 +1,11 @@
-import { createReadStream } from 'node:fs';
-import { readFile } from 'node:fs/promises';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
+const input = await getInput();
 const al = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const rl = readline.createInterface(createReadStream('input.txt', 'utf8'));
 
 let sum = 0;
 const buf = [];
-for await (const rs of rl) {
+for (const rs of input.lines()) {
     buf.push(rs);
     if (buf.length < 3) {
         continue;

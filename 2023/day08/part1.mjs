@@ -1,16 +1,15 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
-const lines = input[Symbol.asyncIterator]();
+const lines = input.lines();
 
-const instructions = (await lines.next()).value;
-await lines.next();
+const instructions = lines.next().value;
+lines.next();
 
 const nodes = {}
 
-for await (const line of lines) {
+for (const line of lines) {
     const node = line.slice(0, 3);
     nodes[node] = {
         L: line.slice(7, 10),

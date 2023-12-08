@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const START = 20;
 const STEP = 40;
@@ -11,7 +9,7 @@ const LIMIT = 220;
 let X = 1;
 let i = 1;
 let sum = 0;
-for await (const line of input) {
+for (const line of input.lines()) {
     const [cmd, arg] = line.split(' ');
     switch (cmd) {
         case 'addx':
@@ -32,6 +30,7 @@ console.log(sum);
 
 function checkPrintSignal(i, X) {
     if (i <= LIMIT && (i - START) % STEP === 0) {
-        console.log(`${i}: ${X} => ${sum += X * i}`);
+        sum += X * i;
+        // console.log(`${i}: ${X} => ${sum}`);
     }
 }

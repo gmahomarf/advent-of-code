@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 function compare(p1, p2) {
     if (typeof p1 === 'number') {
@@ -37,7 +35,7 @@ async function run() {
     const packets = [[2], [6]]
     const dividers = [];
 
-    for await (const line of input) {
+    for (const line of input.lines()) {
         if (line.trim().length) {
             packets.push(JSON.parse(line));
         }
@@ -53,7 +51,7 @@ async function run() {
             break;
     }
 
-    console.log(dividers);
+    // console.log(dividers);
     console.log(dividers[0] * dividers[1]);
 }
 

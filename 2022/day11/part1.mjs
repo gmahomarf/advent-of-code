@@ -1,9 +1,8 @@
-import { createReadStream } from 'node:fs';
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const { floor } = Math;
 const ROUNDS = 20;
@@ -39,7 +38,7 @@ async function printMonkeys(round, monkeys, wait) {
     }
 }
 
-for await (const line of input) {
+for (const line of input.lines()) {
     const [label, arg] = line.split(':');
     if (label.startsWith('Monkey')) {
         monkeyIndex = +label.split(' ')[1];
@@ -50,7 +49,7 @@ for await (const line of input) {
         monkeys[monkeyIndex].op = new Function('old', 'return ' + arg.split('=')[1]);
     } else if (label.startsWith('  Test')) {
         const div = +arg.split(' ').pop()
-        monkeys[monkeyIndex].test = new Function('item', `return !(item % ${div})`) ;
+        monkeys[monkeyIndex].test = new Function('item', `return !(item % ${div})`);
     } else if (label.startsWith('    If')) {
         const key = label.split(' ').pop()[0];
         monkeys[monkeyIndex][key] = +arg.split(' ').pop();
@@ -86,5 +85,5 @@ dbg && console.log(JSON.stringify(monkeys, (key, value) => {
     return value;
 }, 2));
 
-monkeys.sort((a,b) => b.inspections - a.inspections);
+monkeys.sort((a, b) => b.inspections - a.inspections);
 console.log(monkeys[0].inspections * monkeys[1].inspections)

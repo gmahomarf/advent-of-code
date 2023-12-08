@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const ROOT = 'root';
 
@@ -28,10 +26,10 @@ function toPrefixNotation(monkeys, name) {
 async function run() {
     const monkeys = {};
     const re = /^(?:(?<n>\d+)|(?<left>\w+) (?<op>[-+*/]) (?<right>\w+))$/;
-    for await (const line of input) {
+    for (const line of input.lines()) {
         const [monkey, operation] = line.split(': ');
         const match = operation.match(re);
-        const {n, left, op, right} = match.groups;
+        const { n, left, op, right } = match.groups;
         if (n) {
             monkeys[monkey] = [+n];
         } else {

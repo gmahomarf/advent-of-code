@@ -1,13 +1,11 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const len = 14;
 
-for await (const line of input) {
-    const buf = [...line.slice(0,len)];
+for (const line of input.lines()) {
+    const buf = [...line.slice(0, len)];
     let i = len;
     for (const c of line.slice(len)) {
         const o = Object.create(null);

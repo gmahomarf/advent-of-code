@@ -1,15 +1,13 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const disk = { '/': { size: 0, c: {} } };
 let currentDir = null;
 let dirStack = [];
 let lsMode = false;
 
-for await (const line of input) {
+for (const line of input.lines()) {
     if (line[0] === '$') {
         lsMode = false;
         const [cmd, ...args] = line.slice(2).split(' ');

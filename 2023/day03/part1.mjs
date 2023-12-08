@@ -1,7 +1,7 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline'
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+// const input = await getExampleInput();
+const input = await getInput();
 
 const numbers = [];
 const symbols = {};
@@ -10,7 +10,7 @@ let height = 0;
 let width;
 const re = /(?<s>[^.\d])|(?<n>\d+)/g;
 
-for await (const line of input) {
+for (const line of input.lines()) {
     let match;
 
     while (match = re.exec(line)) {

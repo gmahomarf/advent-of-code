@@ -1,6 +1,7 @@
-import { readFile } from 'node:fs/promises';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = await readFile('input.txt', 'utf-8');
+// const input = await getExampleInput();
+const input = await getInput();
 
 const you = {
     A: 1,
@@ -15,18 +16,18 @@ const me = {
 }
 
 let score = 0;
-for (const game of input.split('\n')) {
+for (const game of input.lines()) {
     const [y, m] = game.split(' ');
     switch (me[m] - you[y]) {
-    case 0:
-        score += 3 + me[m];
-        break;
-    case 1:
-    case -2:
-        score += 6 + me[m]
-        break;
-    default:
-        score += me[m]
+        case 0:
+            score += 3 + me[m];
+            break;
+        case 1:
+        case -2:
+            score += 6 + me[m]
+            break;
+        default:
+            score += me[m]
     }
 }
 

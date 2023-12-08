@@ -1,14 +1,13 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
 const seeds = [];
 const maps = {};
 const path = [];
 
 let map;
-for await (const line of input) {
+for (const line of input.lines()) {
     if (!seeds.length) {
         seeds.push(...getSeeds(line.split(' ').slice(1).map(Number)));
         continue;

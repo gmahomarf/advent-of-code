@@ -1,11 +1,10 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
 let re = /\d+/g;
 const counts = {};
-for await (const line of input) {
+for (const line of input.lines()) {
     const [card, winning, mine] = line.split(/: | \| /);
     const cardNo = Number(card.slice(5));
     const winners = {};

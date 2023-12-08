@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 /**
  *
@@ -25,7 +23,7 @@ function getStacks(b) {
 let buf = [];
 let done = false;
 let stacks;
-for await (const line of input) {
+for (const line of input.lines()) {
     if (!done && line) {
         buf.push(line);
         continue;

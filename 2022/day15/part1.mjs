@@ -1,9 +1,7 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
 import process from 'node:process';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const { abs, min, max } = Math;
 
@@ -18,7 +16,7 @@ function distance(x1, y1, x2, y2) {
 async function run() {
     const sensors = [];
     let left = Infinity, right = -Infinity;
-    for await (const line of input) {
+    for (const line of input.lines()) {
         const [sx, sy, bx, by] = re.exec(line).slice(1, 5).map(n => +n);
         sensors.push({ x: sx, y: sy, bx, by, d: distance(sx, sy, bx, by) });
         const maxDist = distance(sx, sy, bx, by);

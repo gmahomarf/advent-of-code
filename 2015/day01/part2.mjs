@@ -1,18 +1,17 @@
-import { createReadStream } from 'node:fs';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = createReadStream('input.txt', 'utf-8');
+// const input = await getExampleInput();
+const input = await getInput();
 
 let floor = 0;
 let pos = 1;
-main:
-for await (const data of input) {
-    for (const c of data) {
-        c === '(' ? floor++ : floor--;
-        if (floor === -1) {
-            break main;
-        }
-        pos++;
+
+for (const c of input) {
+    c === '(' ? floor++ : floor--;
+    if (floor === -1) {
+        break;
     }
+    pos++;
 }
 
 console.log(pos)

@@ -1,7 +1,8 @@
-import { readFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = await readFile('input.txt', 'utf-8');
+// const input = await getExampleInput();
+const input = await getInput();
 
 for (let i = 1; ; i++) {
     if (createHash('md5').update(`${input}${i}`).digest('hex').startsWith('000000')) {

@@ -1,7 +1,7 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = createInterface(createReadStream('input.txt', 'utf-8'));
+// const input = await getExampleInput();
+const input = await getInput();
 
 let on = 0;
 
@@ -30,7 +30,8 @@ const actions = {
     },
 }
 const lights = {};
-for await (const line of input) {
+
+for (const line of input.lines()) {
     const data = line.split(' ');
     const action = data.slice(0, -3).join(' '),
         [s, , e] = data.slice(-3),

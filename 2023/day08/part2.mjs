@@ -1,17 +1,17 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
 import { lcm } from '../../utils/math.mjs';
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
-const lines = input[Symbol.asyncIterator]();
+const input = await getInput();
 
-const instructions = (await lines.next()).value;
-await lines.next();
+const lines = input.lines();
+
+const instructions = lines.next().value;
+lines.next();
 
 const nodes = {}
 const currentNodes = [];
 
-for await (const line of lines) {
+for (const line of lines) {
     const node = line.slice(0, 3);
     nodes[node] = {
         L: line.slice(7, 10),

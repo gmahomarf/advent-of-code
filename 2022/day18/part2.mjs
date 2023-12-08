@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const cubes = {};
 let minx = 600,
@@ -12,7 +10,7 @@ let maxx = 0,
     maxy = 0,
     maxz = 0;
 
-for await (const line of input) {
+for (const line of input.lines()) {
     cubes[line] = true;
     const [x, y, z] = line.split(',').map(n => +n);
     minx = Math.min(minx, x - 1);
@@ -77,9 +75,9 @@ for (let x = minx; x <= maxx; x++) {
 }
 
 // console.log(cubes);
-console.log('   droplets total sfc area:', sides);
-console.log('  air pockets ext sfc area:', is);
-console.log('            total droplets:', Object.keys(cubes).length);
-console.log('           total empty air:', measured.size);
-console.log('              total volume:', (maxx - minx + 1) * (maxy - miny + 1) * (maxz - minz + 1));
+// console.log('   droplets total sfc area:', sides);
+// console.log('  air pockets ext sfc area:', is);
+// console.log('            total droplets:', Object.keys(cubes).length);
+// console.log('           total empty air:', measured.size);
+// console.log('              total volume:', (maxx - minx + 1) * (maxy - miny + 1) * (maxz - minz + 1));
 console.log('     droplets ext sfc area:', sides - is);

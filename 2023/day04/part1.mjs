@@ -1,11 +1,10 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
 let sum = 0;
 let re = /\d+/g;
-for await (const line of input) {
+for (const line of input.lines()) {
     const [, winning, mine] = line.split(/: | \| /);
     const winners = {};
 

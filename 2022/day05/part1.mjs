@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 /**
  *
@@ -14,8 +12,8 @@ function getStacks(b) {
 
     for (let line = b.pop(); line; line = b.pop()) {
         const crates = line.match(/(?:\[[A-Z]+\]|   ) ?/g);
-        crates.forEach((c,i) => {
-            c.trim() && r[i].push(c.trim().slice(1,-1));
+        crates.forEach((c, i) => {
+            c.trim() && r[i].push(c.trim().slice(1, -1));
         })
     }
 
@@ -25,7 +23,7 @@ function getStacks(b) {
 let buf = [];
 let done = false;
 let stacks;
-for await (const line of input) {
+for (const line of input.lines()) {
     if (!done && line) {
         buf.push(line);
         continue;
@@ -34,10 +32,10 @@ for await (const line of input) {
         stacks = getStacks(buf);
     }
 
-    if(!line) continue;
+    if (!line) continue;
 
     let [c, from, to] = line.match(/move (\d+) from (\d+) to (\d+)/).slice(1).map(i => +i);
-    stacks[to-1].push(...stacks[from-1].splice(-c).reverse());
+    stacks[to - 1].push(...stacks[from - 1].splice(-c).reverse());
 }
 
 console.log(stacks.map(s => s.pop() || ' ').join(''));

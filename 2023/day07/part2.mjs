@@ -1,6 +1,6 @@
-import { readFile } from "fs/promises"
+import { getInput } from "../../utils/input.mjs";
 
-const input = await readFile('input.txt', 'utf-8');
+const input = await getInput();
 const cardRanks = {
     A: 13,
     K: 12,
@@ -27,7 +27,7 @@ const handStrengths = {
     HC: 1,
 }
 
-const hands = input.split('\n').map(line => { const [hand, bid] = line.split(' '); return { hand, bid: +bid, strength: getStrength(hand) } });
+const hands = [...input.lines()].map(line => { const [hand, bid] = line.split(' '); return { hand, bid: +bid, strength: getStrength(hand) } });
 
 hands.sort((a, b) => a.strength === b.strength ? sortEqual(a.hand, b.hand) : a.strength - b.strength);
 

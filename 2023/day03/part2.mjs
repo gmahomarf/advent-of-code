@@ -1,7 +1,6 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline'
+import { getInput } from "../../utils/input.mjs";
 
-const input = createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
 const numbers = [];
 const gears = {};
@@ -10,7 +9,7 @@ let height = 0;
 let width;
 const re = /(?<s>\*)|(?<n>\d+)/g;
 
-for await (const line of input) {
+for (const line of input.lines()) {
     let match;
 
     while (match = re.exec(line)) {
@@ -57,4 +56,4 @@ for (const number of numbers) {
     }
 }
 
-console.log(Object.values(gears).filter(g => g.length === 2).reduce((s, g) => s + g[0]*g[1], 0))
+console.log(Object.values(gears).filter(g => g.length === 2).reduce((s, g) => s + g[0] * g[1], 0))

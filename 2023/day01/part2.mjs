@@ -1,6 +1,7 @@
-import { readFile } from 'node:fs/promises';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = await readFile('input.txt', 'utf-8');
+// const input = await getExampleInput();
+const input = await getInput();
 
 let sum = 0;
 const digits = {
@@ -17,7 +18,7 @@ const digits = {
 
 const re = new RegExp(`(${Object.keys(digits).join('|')})`, 'g');
 
-for (const line of input.split('\n')) {
+for (const line of input.lines()) {
     const numbers = line
         .replace(re, (v) => digits[v] + v.slice(1))
         .replace(re, (v) => digits[v])

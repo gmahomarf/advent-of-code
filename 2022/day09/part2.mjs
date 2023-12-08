@@ -1,12 +1,10 @@
-import { createReadStream } from 'node:fs';
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
+import { getInput } from "../../utils/input.mjs";
 
 const { abs, sign } = Math;
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex2.txt', 'utf8'));
+const input = await getInput();
 
 const dbg = process.env.DEBUG;
 const timeout = +(process.argv[2] || '25');
@@ -53,7 +51,7 @@ async function printGrid(rope, move, wait) {
     }
 }
 
-for await (const line of input) {
+for (const line of input.lines()) {
     let [dir, c] = line.split(' ');
     // await debug(rope, [dir, `${c}/${c}`]);
     let mov = dirs[dir];

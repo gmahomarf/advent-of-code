@@ -1,6 +1,6 @@
-import { readFile } from 'node:fs/promises';
+import { getInput } from "../../utils/input.mjs";
 
-const input = await readFile('input-ex.txt', 'utf-8');
+const input = await getInput();
 
 let idx = -1;
 let m = -1;
@@ -15,6 +15,6 @@ const elves = input.split('\n\n').map((e, i) => {
     }
 
     return t;
-}).sort((a,b) => b-a);
+}).sort((a, b) => b - a);
 
 console.log(`Elf ${idx} with ${elves.shift()} calories`)

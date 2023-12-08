@@ -1,6 +1,8 @@
-import { readFile } from 'node:fs/promises';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = await readFile('input.txt', 'utf-8');
+// const input = await getExampleInput();
+const input = await getInput();
+
 const limits = {
     red: 12,
     green: 13,
@@ -9,7 +11,7 @@ const limits = {
 
 let sum = 0;
 main:
-for (const line of input.split('\n')) {
+for (const line of input.lines()) {
     const [game, plays] = line.split(': ');
     const gameId = Number(game.slice(5));
 

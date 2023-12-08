@@ -1,7 +1,7 @@
-import { createReadStream } from 'node:fs';
-import { createInterface } from 'node:readline';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = createInterface(createReadStream('input2.txt', 'utf-8'));
+// const input = await getExampleInput();
+const input = await getInput();
 
 const wires = {};
 
@@ -66,7 +66,7 @@ const actions = {
     },
 }
 
-for await (const line of input) {
+for (const line of input.lines()) {
     const [left, dest] = line.split(' -> ');
     const cmd = left.split(' ');
     if (cmd.length === 1) {

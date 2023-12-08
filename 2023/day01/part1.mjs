@@ -1,10 +1,10 @@
-import { readFile } from 'node:fs/promises';
+import { getExampleInput, getInput } from '../../utils/input.mjs';
 
-const input = await readFile('input.txt', 'utf-8');
-
+// const input = await getExampleInput();
+const input = await getInput();
 let sum = 0;
 
-for (const line of input.split('\n')) {
+for (const line of input.lines()) {
     const numbers = line.split('').map(Number).filter(Number.isFinite);
     const f = numbers.shift();
     const l = numbers.pop() ?? f;

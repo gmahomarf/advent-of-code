@@ -1,9 +1,8 @@
-import { createReadStream } from 'node:fs';
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const ROUNDS = 10000;
 const monkeys = [];
@@ -39,7 +38,7 @@ async function printMonkeys(round, monkeys, wait) {
     }
 }
 
-for await (const line of input) {
+for (const line of input.lines()) {
     const [label, arg] = line.split(':');
     if (label.startsWith('Monkey')) {
         monkeyIndex = +label.split(' ')[1];
@@ -85,9 +84,9 @@ for (let i = 0; i < ROUNDS; i++) {
 
 
 monkeys.sort((a, b) => b.inspections - a.inspections);
-console.log(JSON.stringify(monkeys, (key, value) => {
-    if (key && Array.isArray(value)) return `[...truncated...]`;
-    if (typeof value === 'function') return value.toString();
-    return value;
-}, 2));
+// console.log(JSON.stringify(monkeys, (key, value) => {
+//     if (key && Array.isArray(value)) return `[...truncated...]`;
+//     if (typeof value === 'function') return value.toString();
+//     return value;
+// }, 2));
 console.log(monkeys[0].inspections * monkeys[1].inspections)

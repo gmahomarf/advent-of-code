@@ -1,7 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
+const input = await getInput();
 
 const C = {
     AIR: 0,
@@ -14,13 +13,13 @@ async function run() {
     let bottom = 0;
     let left = Infinity;
     let right = 0;
-    for await (const line of input) {
+    for (const line of input.lines()) {
         const points = line.split(' -> ');
         for (let i = 0; i < points.length - 1; i++) {
             const [x1, y1] = points[i].split(',').map(n => +n);
-            const [x2, y2] = points[i+1].split(',').map(n => +n);
-            const [dx, dy] = [Math.sign(x2-x1), Math.sign(y2-y1)];
-            for (let x = x1, y = y1; x !== x2 + dx || y!== y2 + dy; x += dx, y+= dy) {
+            const [x2, y2] = points[i + 1].split(',').map(n => +n);
+            const [dx, dy] = [Math.sign(x2 - x1), Math.sign(y2 - y1)];
+            for (let x = x1, y = y1; x !== x2 + dx || y !== y2 + dy; x += dx, y += dy) {
                 cave[`${x},${y}`] = C.ROCK;
                 bottom = y > bottom ? y : bottom;
                 left = x < left ? x : left;
@@ -30,10 +29,8 @@ async function run() {
     }
     const floor = bottom + 2;
 
-    console.log(cave);
-    console.log(bottom, left, right);
-    for(let c = 0; ; c++) {
-        let s = {x: 500, y:0};
+    for (let c = 0; ; c++) {
+        let s = { x: 500, y: 0 };
         while (1) {
             if (s.y + 1 === floor) {
                 cave[`${s.x},${s.y}`] = C.SAND;

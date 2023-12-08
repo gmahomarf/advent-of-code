@@ -1,8 +1,6 @@
-import { createReadStream } from 'node:fs';
-import readline from 'node:readline';
+import { getInput } from "../../utils/input.mjs";
 
-const input = readline.createInterface(createReadStream('input.txt', 'utf8'));
-// const input = readline.createInterface(createReadStream('input-ex.txt', 'utf8'));
+const input = await getInput();
 
 const DIRECTIONS = {
     U: [0, -1],
@@ -17,7 +15,7 @@ let end;
 let a = 97 // 'a'.charChodeAt(0);
 
 let y = 0;
-for await (const line of input) {
+for (const line of input.lines()) {
     grid.push(line.split('').map((c, x) => c === 'S' || c === 'a' ? (starts.push(`${x},${y}`), 0) : c === 'E' ? (end = `${x},${y}`, 25) : c.charCodeAt(0) - a));
     y++;
 }
