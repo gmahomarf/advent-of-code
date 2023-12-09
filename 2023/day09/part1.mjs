@@ -13,9 +13,11 @@ for (const line of input.lines()) {
         const prev = history.at(-1);
         const newA = [];
         zeroes = true;
+
         for (let i = 1; i < prev.length; i++) {
             let diff;
             newA.push(diff = prev[i] - prev[i - 1]);
+
             if (diff) {
                 zeroes = false;
             }

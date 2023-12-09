@@ -4,6 +4,7 @@ import { getExampleInput, getInput } from "../../utils/input.mjs";
 const input = await getInput();
 
 let sum = 0;
+
 for (const line of input.lines()) {
     const history = [line.split(' ').map(Number)];
 
