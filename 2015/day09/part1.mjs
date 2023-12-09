@@ -21,9 +21,7 @@ for (const line of input.lines()) {
 }
 
 let shortest = Infinity;
-
-const routes = [];
-permutations(Object.keys(distances), routes, new Set());
+const routes = permutations(Object.keys(distances));
 
 for (const route of routes) {
     let distance = 0;
