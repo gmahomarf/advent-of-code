@@ -36,3 +36,30 @@ String.prototype.lines = function* () {
         yield this.slice(i);
     }
 }
+
+/**
+ *
+ * @param {number} n
+ * @returns {string}
+ */
+String.prototype.line = function (n) {
+    let i = 0;
+    let idx;
+    let line = 0;
+
+    if (n < 0) {
+        return '';
+    }
+
+    while ((idx = this.indexOf('\n', i)) !== -1 && line < n) {
+        i = idx + 1;
+        line++;
+    }
+
+    if (n > line) {
+        return '';
+    }
+
+    return this.slice(i, idx < 0 ? undefined : idx)
+}
+
