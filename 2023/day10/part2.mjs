@@ -36,13 +36,57 @@ const PIPES = {
 
 async function main() {
     const input = await getInput();
-    // const input = await getExampleInput();
+    // const input = await getExampleInput(6);
 
     const { grid, start } = getGridAndStart(input);
     const possibleDirs = getPossibleStartingDirections(grid, start, DIRECTIONS);
     const loop = findLoop(grid, start, possibleDirs[0]);
 
-    console.log(loop.size / 2);
+    replaceStartPipe(grid, start, possibleDirs);
+    const count = getInsideCount(grid, loop);
+
+    console.log(grid.map(g => g.join('')).join('\n'));
+    console.log(count);
+}
+
+function getInsideCount(grid, loop) {
+    const map = {
+        '-': '\u2500',
+        '|': '\u2502',
+        'F': '\u250C',
+        '7': '\u2510',
+        'L': '\u2514',
+        'J': '\u2518',
+    };
+    let count = 0;
+    for (let y = 0; y < grid.length; y++) {
+        let inside = false;
+        let prev;
+        for (let x = 0; x < grid[y].length; x++) {
+            const p = grid[y][x];
+            if (loop.has(`${x},${y}`)) {
+                if (!prev || p === '|' || p === 'L' || p === 'F') {
+                    inside = !inside;
+                } else if (p === 'J' && prev === 'L') {
+                    inside = !inside;
+                } else if (p === '7' && prev === 'F') {
+                    inside = !inside;
+                }
+
+                if (p !== '-') {
+                    prev = p;
+                }
+
+                grid[y][x] = map[p];
+            } else if (inside) {
+                grid[y][x] = 'I';
+                count++;
+            } else {
+                grid[y][x] = '.';
+            }
+        }
+    }
+    return count;
 }
 
 function getPossibleStartingDirections(grid, start, directions) {
@@ -101,6 +145,17 @@ function findLoop(grid, startPos, startDir) {
     }
 
     return loop;
+}
+
+function replaceStartPipe(grid, start, possibleDirs) {
+    switch (possibleDirs[0]) {
+        case 'N':
+            return grid[start.y][start.x] = possibleDirs[1] === 'E' ? 'L' : 'J';
+        case 'E':
+            return grid[start.y][start.x] = 'F';
+        case 'S':
+            return grid[start.y][start.x] = '7';
+    }
 }
 
 main();
