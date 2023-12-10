@@ -11,8 +11,8 @@ export async function getInput() {
  *
  * @return {Promise<string>}
  */
-export async function getExampleInput() {
-    return _getInput('input-ex.txt');
+export async function getExampleInput(n = '') {
+    return _getInput(`input-ex${n}.txt`);
 }
 
 /**
@@ -35,7 +35,7 @@ String.prototype.lines = function* () {
     if (i < this.length) {
         yield this.slice(i);
     }
-}
+};
 
 /**
  *
@@ -60,6 +60,6 @@ String.prototype.line = function (n) {
         return '';
     }
 
-    return this.slice(i, idx < 0 ? undefined : idx)
+    return this.slice(i, idx < 0 ? undefined : idx);
 }
 

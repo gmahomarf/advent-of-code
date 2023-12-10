@@ -1,5 +1,7 @@
 {
     "prettier.enable": false,
     "javascript.format.enable": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "javascript.format.semicolons": "insert",
+    "javascript.preferences.quoteStyle": "single"
 }
