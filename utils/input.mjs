@@ -1,30 +1,18 @@
 import { readFile } from "fs/promises";
-/**
- *
- * @return {Promise<string>}
- */
+
 export async function getInput() {
     return _getInput('input.txt');
 }
 
-/**
- *
- * @return {Promise<string>}
- */
 export async function getExampleInput(n = '') {
     return _getInput(`input-ex${n}.txt`);
 }
 
-/**
- *
- * @param {string} file
- * @returns {Promise<string>}
- */
 async function _getInput(file) {
-    return await readFile(file, 'utf-8');
+    return readFile(file, 'utf-8');
 }
 
-String.prototype.lines = function* () {
+String.prototype.lines = function* lines() {
     let i = 0;
     let idx;
     while ((idx = this.indexOf('\n', i)) !== -1) {
@@ -63,3 +51,9 @@ String.prototype.line = function (n) {
     return this.slice(i, idx < 0 ? undefined : idx);
 }
 
+/**
+ * @typedef String
+ * @interface
+ * @property {Generator<string, sdasdas>} lines
+ * @property {(n: number) => string} line
+ */

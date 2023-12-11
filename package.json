@@ -1,0 +1,10 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "My AoC solutions. That's it",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
