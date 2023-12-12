@@ -38,3 +38,13 @@ function _gcd(a, b) {
 
     return a;
 }
+
+/**
+ * @template T
+ * @param {T} a 
+ * @param {T} b 
+ * @returns {T}
+ */
+export function sum(a, b) {
+    return a + b;
+}

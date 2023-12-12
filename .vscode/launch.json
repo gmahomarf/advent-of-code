@@ -19,5 +19,16 @@
             "console": "integratedTerminal",
             "args": []
         },
+        {
+            "type": "bun",
+            "request": "launch",
+            "name": "Launch Program (Bun)",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "env": {
+                "DEBUG": "1"
+            },
+            "args": [],
+        }
     ]
 }

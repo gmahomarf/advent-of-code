@@ -49,11 +49,19 @@ String.prototype.line = function (n) {
     }
 
     return this.slice(i, idx < 0 ? undefined : idx);
-}
+};
 
 /**
- * @typedef String
- * @interface
- * @property {Generator<string, sdasdas>} lines
- * @property {(n: number) => string} line
+ *
+ * @template T
+ * @param {number} n
+ * @returns {T[]}
  */
+Array.prototype.repeat = function (n) {
+    const r = [];
+    for (let i = 0; i < n; i++) {
+        r.push(...this.slice());
+    }
+
+    return r;
+};
