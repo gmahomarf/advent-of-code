@@ -11,7 +11,7 @@ async function main() {
 
         const groups = _seqs.split(',').map(Number);
         const possibles = possibilitiesMemoized(springs.split(''), groups);
-        // const possibles = possibilitiesDebug(springs.split(''), groups, '');
+        // const possibles = possibilitiesDebug(springs.split(''), groups);
         total += possibles;
         // console.log(line, '<=>', possibles);
         // console.log('');

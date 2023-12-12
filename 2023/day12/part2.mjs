@@ -13,7 +13,7 @@ async function main() {
         const _groups = (_seqs + ',').repeat(5).slice(0, -1);
         const groups = _groups.split(',').map(Number);
         const possibles = possibilitiesMemoized(springs.split(''), groups);
-        // const possibles = possibilitiesDebug(springs.split(''), groups, '');
+        // const possibles = possibilitiesDebug(springs.split(''), groups);
         total += possibles;
         // console.log(springs, _groups, '<=>', possibles);
         // console.log('');

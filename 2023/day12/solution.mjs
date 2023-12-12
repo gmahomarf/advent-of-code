@@ -65,7 +65,7 @@ function fits(springs, groupLength) {
      * @param {string} history
      * @returns
      */
-export function possibilitiesDebug(springs, groups, history) {
+export function possibilitiesDebug(springs, groups, history = '') {
     if (springs[0] === '.') {
         return possibilitiesDebug(springs.slice(1), groups, history + springs[0]);
     }
