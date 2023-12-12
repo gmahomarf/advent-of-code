@@ -1,5 +1,5 @@
 import { getExampleInput, getInput } from '../../utils/input.mjs';
-import { possibilitiesDebug, possibilitiesMemoized } from './solution.mjs';
+import { possibilities, possibilitiesDebug } from './solution.mjs';
 
 async function main() {
     const input = await getInput();
@@ -12,11 +12,11 @@ async function main() {
         const springs = (_springs + '?').repeat(5).slice(0, -1);
         const _groups = (_seqs + ',').repeat(5).slice(0, -1);
         const groups = _groups.split(',').map(Number);
-        const possibles = possibilitiesMemoized(springs.split(''), groups);
+        const possibles = possibilities(springs.split(''), groups);
         // const possibles = possibilitiesDebug(springs.split(''), groups);
-        total += possibles;
         // console.log(springs, _groups, '<=>', possibles);
         // console.log('');
+        total += possibles;
     }
 
     console.log('Total:', total);

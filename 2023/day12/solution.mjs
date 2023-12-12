@@ -1,6 +1,6 @@
-import memoizee from 'memoizee';
+import memoize from 'memoize';
 
-export const possibilitiesMemoized = memoizee(
+export const possibilities = memoize(
     /**
      *
      * @param {string[]} springs
@@ -9,7 +9,7 @@ export const possibilitiesMemoized = memoizee(
      */
     function (springs, groups) {
         if (springs[0] === '.') {
-            return possibilitiesMemoized(springs.slice(1), groups);
+            return possibilities(springs.slice(1), groups);
         }
 
         if (!groups.length) {
@@ -25,18 +25,17 @@ export const possibilitiesMemoized = memoizee(
         }
 
         if (springs[0] === '?') {
-            return possibilitiesMemoized(['#'].concat(springs.slice(1)), groups)
-                + possibilitiesMemoized(springs.slice(1), groups);
+            return possibilities(['#'].concat(springs.slice(1)), groups)
+                + possibilities(springs.slice(1), groups);
         }
 
         if (fits(springs, groups[0])) {
-            return possibilitiesMemoized(springs.slice(groups[0] + 1), groups.slice(1));
+            return possibilities(springs.slice(groups[0] + 1), groups.slice(1));
         }
 
         return 0;
     }, {
-    primitive: true,
-    length: 2
+    cacheKey: args => args.join(',')
 });
 
 /**

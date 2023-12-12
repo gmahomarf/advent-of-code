@@ -8,6 +8,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "memoizee": "^0.4.15"
+    "memoize": "^10.0.0"
   }
 }
