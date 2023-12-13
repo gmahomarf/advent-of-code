@@ -1,6 +1,7 @@
 /**
  *
  * @template T
+ * @this Array<T>
  * @param {number} n
  * @returns {T[]}
  */
@@ -11,6 +12,17 @@ Array.prototype.repeat = function (n) {
     }
 
     return r;
+};
+
+/**
+ *
+ * @template T
+ * @this Array<T>
+ * @param {...number} indices
+ * @returns {T[]}
+ */
+Array.prototype.getMany = function (...indices) {
+    return indices.map(i => this.at(i));
 };
 
 /**
