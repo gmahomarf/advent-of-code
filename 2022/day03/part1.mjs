@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 const al = '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -16,4 +16,4 @@ for (const rs of input.lines()) {
     }
 }
 
-console.log(sum)
+console.log(sum);

@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -14,14 +14,14 @@ for (const line of input.lines()) {
 
     while (match = re.exec(line)) {
         if (match.groups.s) {
-            gears[`${match.index}x${height}`] = []
+            gears[`${match.index}x${height}`] = [];
         } else {
             numbers.push({
                 y: height,
                 s: match.index,
                 e: match.index + match[0].length - 1,
                 n: +match[0]
-            })
+            });
         }
     }
 
@@ -56,4 +56,4 @@ for (const number of numbers) {
     }
 }
 
-console.log(Object.values(gears).filter(g => g.length === 2).reduce((s, g) => s + g[0] * g[1], 0))
+console.log(Object.values(gears).filter(g => g.length === 2).reduce((s, g) => s + g[0] * g[1], 0));

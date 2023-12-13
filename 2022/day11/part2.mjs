@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -22,7 +22,7 @@ async function printMonkeys(round, monkeys, wait) {
     console.clear();
     console.log(`Round ${round}`);
     for (const [id, { items, inspections }] of Object.entries(monkeys)) {
-        console.log(`Monkey ${id}: [${items.join(', ')}] => ${inspections} times`)
+        console.log(`Monkey ${id}: [${items.join(', ')}] => ${inspections} times`);
     }
     if (wait) {
         const prompt = readline.createInterface({
@@ -49,7 +49,7 @@ for (const line of input.lines()) {
         const predicate = arg.split('= ')[1].split(' ').slice(-2);
         monkeys[monkeyIndex].op = [predicate[0], +predicate[1] || predicate[1]];
     } else if (label.startsWith('  Test')) {
-        const div = +arg.split(' ').pop()
+        const div = +arg.split(' ').pop();
         monkeys[monkeyIndex].div = div;
         divs.add(div);
     } else if (label.startsWith('    If')) {
@@ -65,7 +65,7 @@ function doOp(left, [op, right]) {
     switch (op) {
         case '*': return left * right;
         case '+': return left + right;
-        default: throw new Error(`unknown ${op}`)
+        default: throw new Error(`unknown ${op}`);
     }
 }
 for (let i = 0; i < ROUNDS; i++) {
@@ -89,4 +89,4 @@ monkeys.sort((a, b) => b.inspections - a.inspections);
 //     if (typeof value === 'function') return value.toString();
 //     return value;
 // }, 2));
-console.log(monkeys[0].inspections * monkeys[1].inspections)
+console.log(monkeys[0].inspections * monkeys[1].inspections);

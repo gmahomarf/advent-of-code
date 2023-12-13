@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -14,7 +14,7 @@ function getStacks(b) {
         const crates = line.match(/(?:\[([A-Z])\]| ( ) ) ?/g);
         crates.forEach((c, i) => {
             c.trim() && r[i].push(c.trim().slice(1, -1));
-        })
+        });
     }
 
     return r;
@@ -28,7 +28,7 @@ for (const line of input.lines()) {
         buf.push(line);
         continue;
     } else if (!done) {
-        done = true
+        done = true;
         stacks = getStacks(buf);
     }
 

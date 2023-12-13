@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -32,7 +32,7 @@ function compare(p1, p2) {
 }
 
 async function run() {
-    const packets = [[2], [6]]
+    const packets = [[2], [6]];
     const dividers = [];
 
     for (const line of input.lines()) {

@@ -9,8 +9,8 @@ export function lcm(...numbers) {
 
 /**
  * LCM is defined as abs(a * b) / GCD(a, b)
- * 
- * @param  {...any} numbers 
+ *
+ * @param  {...any} numbers
  */
 function _lcm(a, b) {
     return Math.abs(a * b) / _gcd(a, b);
@@ -41,10 +41,20 @@ function _gcd(a, b) {
 
 /**
  * @template T
- * @param {T} a 
- * @param {T} b 
+ * @param {T} a
+ * @param {T} b
  * @returns {T}
  */
 export function sum(a, b) {
     return a + b;
+}
+
+/**
+ *
+ * @param {number} a
+ * @param {number} b
+ * @returns {number[]}
+ */
+export function range(a, b) {
+    return Array.from({ length: b - a + 1 }).map((_, i) => i + a);
 }

@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -7,12 +7,12 @@ const DIRECTIONS = {
     R: [1, 0],
     D: [0, 1],
     L: [-1, 0],
-}
+};
 
 const grid = [];
 const starts = [];
 let end;
-let a = 97 // 'a'.charChodeAt(0);
+let a = 97; // 'a'.charChodeAt(0);
 
 let y = 0;
 for (const line of input.lines()) {
@@ -32,7 +32,7 @@ function reverse() {
         }
 
         for (const dir of Object.values(DIRECTIONS)) {
-            let k2 = [+x + dir[0], +y + dir[1]]
+            let k2 = [+x + dir[0], +y + dir[1]];
             const n = grid[k2[1]]?.[k2[0]];
             if (n >= 0 && grid[y][x] - n < 2) {
                 const step = k2.join(',');
@@ -59,7 +59,7 @@ function min() {
             }
 
             for (const dir of Object.values(DIRECTIONS)) {
-                let k2 = [+x + dir[0], +y + dir[1]]
+                let k2 = [+x + dir[0], +y + dir[1]];
                 const n = grid[k2[1]]?.[k2[0]];
                 if (n >= 0 && n - grid[y][x] < 2) {
                     const step = k2.join(',');

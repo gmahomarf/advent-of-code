@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -7,7 +7,7 @@ const wires = {};
 
 function dbg(m) {
     if (process.env.DEBUG) {
-        console.log(m)
+        console.log(m);
     }
 }
 
@@ -18,53 +18,53 @@ function value(n) {
 const actions = {
     SET(d, n) {
         wires[d] = () => {
-            dbg(`${d} = ${n} (?)`)
+            dbg(`${d} = ${n} (?)`);
             const r = value(n) & 0xFFFF;
-            dbg(`${d} = ${n} (${r})`)
+            dbg(`${d} = ${n} (${r})`);
             return r;
         };
     },
     AND(d, a, b) {
         wires[d] = () => {
-            dbg(`${d} = ${a} & ${b} (?)`)
+            dbg(`${d} = ${a} & ${b} (?)`);
             const r = value(a) & value(b);
-            dbg(`${d} = ${a} & ${b} (${r})`)
+            dbg(`${d} = ${a} & ${b} (${r})`);
             return r;
         };
     },
     OR(d, a, b) {
         wires[d] = () => {
-            dbg(`${d} = ${a} | ${b} (?)`)
+            dbg(`${d} = ${a} | ${b} (?)`);
             const r = value(a) | value(b);
-            dbg(`${d} = ${a} | ${b} (${r})`)
+            dbg(`${d} = ${a} | ${b} (${r})`);
             return r;
         };
     },
     LSHIFT(d, s, n) {
         wires[d] = () => {
-            dbg(`${d} = ${s} << ${n} (?)`)
+            dbg(`${d} = ${s} << ${n} (?)`);
             const r = (value(s) << n) & 0xFFFF;
-            dbg(`${d} = ${s} << ${n} (${r})`)
+            dbg(`${d} = ${s} << ${n} (${r})`);
             return r;
         };
     },
     RSHIFT(d, s, n) {
         wires[d] = () => {
-            dbg(`${d} = ${s} >> ${n} (?)`)
+            dbg(`${d} = ${s} >> ${n} (?)`);
             const r = (value(s) >>> n) & 0xFFFF;
-            dbg(`${d} = ${s} >> ${n} (${r})`)
+            dbg(`${d} = ${s} >> ${n} (${r})`);
             return r;
         };
     },
     NOT(d, s) {
         wires[d] = () => {
-            dbg(`${d} = ~${s} (?)`)
+            dbg(`${d} = ~${s} (?)`);
             const r = ~value(s) & 0xFFFF;
-            dbg(`${d} = ~${s} (${r})`)
+            dbg(`${d} = ~${s} (${r})`);
             return r;
         };
     },
-}
+};
 
 for (const line of input.lines()) {
     const [left, dest] = line.split(' -> ');

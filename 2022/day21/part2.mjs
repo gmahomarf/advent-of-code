@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -7,7 +7,7 @@ const opOp = {
     '-': '+',
     '*': '/',
     '/': '*',
-}
+};
 
 const HUMAN = 'humn';
 
@@ -17,7 +17,7 @@ function doOp(op, left, right) {
         case '+': return left + right;
         case '-': return left - right;
         case '/': return left / right;
-        default: throw new Error(`unknown ${op}`)
+        default: throw new Error(`unknown ${op}`);
     }
 }
 

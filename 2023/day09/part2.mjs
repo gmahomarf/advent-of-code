@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from "../../utils/input.mjs";
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -25,7 +25,7 @@ for (const line of input.lines()) {
         history.push(newA);
     }
 
-    sum += history.reduceRight((s, a) => a.at(0) - s, 0)
+    sum += history.reduceRight((s, a) => a.at(0) - s, 0);
 }
 
 console.log(sum);

@@ -1,5 +1,5 @@
 import process from 'node:process';
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -7,7 +7,7 @@ const { abs, min, max } = Math;
 
 const ROW = +process.argv[2];
 
-const re = /^Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)$/
+const re = /^Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)$/;
 
 function distance(x1, y1, x2, y2) {
     return abs(x1 - x2) + abs(y1 - y2);

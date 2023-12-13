@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -22,7 +22,7 @@ async function printMonkeys(round, monkeys, wait) {
     console.clear();
     console.log(`Round ${round}`);
     for (const { id, items } of monkeys) {
-        console.log(`Monkey ${id}: [${items.join(', ')}]`)
+        console.log(`Monkey ${id}: [${items.join(', ')}]`);
     }
     if (wait) {
         const prompt = readline.createInterface({
@@ -48,7 +48,7 @@ for (const line of input.lines()) {
     } else if (label.startsWith('  Operation')) {
         monkeys[monkeyIndex].op = new Function('old', 'return ' + arg.split('=')[1]);
     } else if (label.startsWith('  Test')) {
-        const div = +arg.split(' ').pop()
+        const div = +arg.split(' ').pop();
         monkeys[monkeyIndex].test = new Function('item', `return !(item % ${div})`);
     } else if (label.startsWith('    If')) {
         const key = label.split(' ').pop()[0];
@@ -86,4 +86,4 @@ dbg && console.log(JSON.stringify(monkeys, (key, value) => {
 }, 2));
 
 monkeys.sort((a, b) => b.inspections - a.inspections);
-console.log(monkeys[0].inspections * monkeys[1].inspections)
+console.log(monkeys[0].inspections * monkeys[1].inspections);

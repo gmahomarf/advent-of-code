@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -18,6 +18,6 @@ const elves = input.split('\n\n').map((e, i) => {
 }).sort((a, b) => b - a);
 
 const top3 = elves.slice(0, 3);
-const sum = top3.reduce((a, b) => a + b)
+const sum = top3.reduce((a, b) => a + b);
 
-console.log(`Elves ${top3} with ${sum} calories`)
+console.log(`Elves ${top3} with ${sum} calories`);

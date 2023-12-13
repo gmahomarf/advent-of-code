@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -16,7 +16,7 @@ for (const line of input.lines()) {
     for (const play of plays.split('; ')) {
         for (const block of play.split(', ')) {
             const [n, color] = block.split(' ');
-            blocks[color] = Math.max(+n, blocks[color])
+            blocks[color] = Math.max(+n, blocks[color]);
         }
     }
 

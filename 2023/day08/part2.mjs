@@ -1,5 +1,5 @@
 import { lcm } from '../../utils/math.mjs';
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -8,7 +8,7 @@ const lines = input.lines();
 const instructions = lines.next().value;
 lines.next();
 
-const nodes = {}
+const nodes = {};
 const currentNodes = [];
 
 for (const line of lines) {
@@ -16,7 +16,7 @@ for (const line of lines) {
     nodes[node] = {
         L: line.slice(7, 10),
         R: line.slice(12, 15),
-    }
+    };
     if (node[2] === 'A') {
         currentNodes.push(node);
     }
@@ -31,4 +31,4 @@ for (let i = 0; ends.filter(x => x).length < currentNodes.length; i++) {
     }
 }
 
-console.log(lcm(...ends))
+console.log(lcm(...ends));

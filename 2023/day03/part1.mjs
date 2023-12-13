@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -15,14 +15,14 @@ for (const line of input.lines()) {
 
     while (match = re.exec(line)) {
         if (match.groups.s) {
-            symbols[`${match.index}x${height}`] = match[0]
+            symbols[`${match.index}x${height}`] = match[0];
         } else {
             numbers.push({
                 y: height,
                 s: match.index,
                 e: match.index + match[0].length - 1,
                 n: +match[0]
-            })
+            });
         }
     }
 
@@ -70,4 +70,4 @@ for (const number of numbers) {
     }
 }
 
-console.log(sum)
+console.log(sum);

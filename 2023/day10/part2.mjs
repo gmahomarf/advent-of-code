@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 const DIRECTIONS = {
     N: { delta: [0, -1], pipes: ['|', '7', 'F'] },

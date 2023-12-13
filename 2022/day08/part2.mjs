@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -8,13 +8,13 @@ for (const line of input.lines()) {
     forest.push(line.split(''));
 }
 
-let lim = forest.length - 1
+let lim = forest.length - 1;
 let mScore = 0;
 
 for (let i = 1; i < lim; i++) {
     for (let j = 1; j < lim; j++) {
         const vis = u(forest, i, j) * d(forest, i, j) * l(forest, i, j) * r(forest, i, j);
-        mScore = mScore < vis ? vis : mScore
+        mScore = mScore < vis ? vis : mScore;
     }
 }
 

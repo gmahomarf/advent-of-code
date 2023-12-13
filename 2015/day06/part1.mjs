@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -28,7 +28,7 @@ const actions = {
         }
         delete lights[light];
     },
-}
+};
 const lights = {};
 
 for (const line of input.lines()) {

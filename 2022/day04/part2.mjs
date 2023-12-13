@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -13,4 +13,4 @@ for (const pairs of input.lines()) {
 
 }
 
-console.log(count)
+console.log(count);

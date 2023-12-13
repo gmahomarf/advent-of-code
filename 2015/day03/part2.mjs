@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -10,10 +10,10 @@ const moves = {
     '<': [0, -1],
     '^': [1, 0],
     'v': [-1, 0],
-}
+};
 const houses = {
     '0,0': 1,
-}
+};
 let i = 0;
 
 for (const c of input) {
@@ -29,4 +29,4 @@ for (const c of input) {
     i++;
 }
 
-console.log(Object.keys(houses).length)
+console.log(Object.keys(houses).length);

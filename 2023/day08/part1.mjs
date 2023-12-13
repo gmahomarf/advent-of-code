@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -7,14 +7,14 @@ const lines = input.lines();
 const instructions = lines.next().value;
 lines.next();
 
-const nodes = {}
+const nodes = {};
 
 for (const line of lines) {
     const node = line.slice(0, 3);
     nodes[node] = {
         L: line.slice(7, 10),
         R: line.slice(12, 15),
-    }
+    };
 }
 
 let curr = 'AAA';
@@ -23,4 +23,4 @@ for (i = 0; curr !== 'ZZZ'; i++) {
     curr = nodes[curr][instructions[i % instructions.length]];
 }
 
-console.log(i)
+console.log(i);

@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -8,12 +8,12 @@ for (const line of input.lines()) {
     forest.push(line.split(''));
 }
 
-let lim = forest.length - 1
+let lim = forest.length - 1;
 let vTrees = lim * 4;
 
 for (let i = 1; i < lim; i++) {
     for (let j = 1; j < lim; j++) {
-        (u(forest, i, j) || d(forest, i, j) || l(forest, i, j) || r(forest, i, j)) && vTrees++
+        (u(forest, i, j) || d(forest, i, j) || l(forest, i, j) || r(forest, i, j)) && vTrees++;
     }
 }
 

@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -17,4 +17,4 @@ const elves = input.split('\n\n').map((e, i) => {
     return t;
 }).sort((a, b) => b - a);
 
-console.log(`Elf ${idx} with ${elves.shift()} calories`)
+console.log(`Elf ${idx} with ${elves.shift()} calories`);

@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -31,7 +31,7 @@ console.log(output);
 function printPixel(i, X) {
     const pos = (i - 1) % STEP;
     if (X - 1 <= pos && pos <= X + 1) {
-        output += '#'
+        output += '#';
     } else {
         output += '.';
     }

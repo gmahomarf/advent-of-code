@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 const [time, distance] = [...input.lines()].map(l => +(l.replace(/ +/g, '').split(':').pop()));
@@ -11,4 +11,4 @@ for (let p = 1; p < time; p++) {
     }
 }
 
-console.log(ways)
+console.log(ways);

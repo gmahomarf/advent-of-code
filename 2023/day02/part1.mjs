@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -7,7 +7,7 @@ const limits = {
     red: 12,
     green: 13,
     blue: 14,
-}
+};
 
 let sum = 0;
 main:

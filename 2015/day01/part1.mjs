@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -9,4 +9,4 @@ for (const c of input) {
     c === '(' ? floor++ : floor--;
 }
 
-console.log(floor)
+console.log(floor);

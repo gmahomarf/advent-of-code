@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const { abs, sign } = Math;
 
@@ -13,7 +13,7 @@ const dirs = {
     D: [0, 1],
     L: [-1, 0],
     R: [1, 0],
-}
+};
 
 const knots = 2;
 const gridSize = 1000;
@@ -72,7 +72,7 @@ for (const line of input.lines()) {
                 tail[1] += sign(dy);
                 if (abs(dx) !== 0) tail[0] += sign(dx);
             }
-            visited.add(`${rope[rope.length - 1][0]},${rope[rope.length - 1][1]}`)
+            visited.add(`${rope[rope.length - 1][0]},${rope[rope.length - 1][1]}`);
         }
     }
 }

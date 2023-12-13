@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -35,7 +35,7 @@ for (const line of input.lines()) {
 }
 
 for (const map of Object.values(maps)) {
-    map.sort((a, b) => a.src - b.src)
+    map.sort((a, b) => a.src - b.src);
 }
 
 let lowest = Infinity;
@@ -48,10 +48,10 @@ for (const seed of seeds) {
             c = mapper(maps[map], c);
         }
     }
-    lowest = Math.min(lowest, c)
+    lowest = Math.min(lowest, c);
 }
 
-console.log(lowest)
+console.log(lowest);
 
 function mapper(map, v) {
     for (const range of map) {

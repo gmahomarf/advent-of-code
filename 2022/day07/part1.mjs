@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -26,13 +26,13 @@ for (const line of input.lines()) {
                 }
                 break;
             case 'ls':
-                lsMode = true
+                lsMode = true;
                 break;
         }
     } else if (lsMode) {
         const [st, name] = line.split(' ');
         if (st === 'dir') {
-            currentDir.c[name] = currentDir[name] || { size: 0, c: {} }
+            currentDir.c[name] = currentDir[name] || { size: 0, c: {} };
         } else {
             currentDir.c[name] = parseInt(st, 10);
         }

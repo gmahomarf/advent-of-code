@@ -1,39 +1,22 @@
 /**
- * @template T
- * @typedef {(o: T) => number | string} IdentityFn<T>
+ * @class
+ * @template {string | number[]} T
+ * @extends Array<T>
  */
-
-/**
- *
- * @template T
- * @param {T[]} options
- * @param {IdentityFn<T>} [idFn]
- * @returns {T[][]}
- */
-export function permutations(options, idFn) {
-    const r = [];
-
-    _permutations(options, r, new Map(), idFn);
-
-    return r;
-}
-
-/**
- *
- * @param {T[]} opts
- * @param {T[][]} results
- * @param {Map<Identity, T>} seen
- * @param {IdentityFn<T>} [idFn]
- */
-function _permutations(opts, results, seen, idFn) {
-    if (seen.size === opts.length) {
-        results.push(Array.from(seen.values()));
+export class Grid extends Array {
+    /**
+     * @type {Array<T>}
+     */
+    #cols;
+    get rows() {
+        return this.slice();
     }
 
-    for (const option of opts) {
-        const id = idFn?.(option) ?? option;
-        if (seen.has(id)) continue;
-        _permutations(opts, results, seen.set(id, option), idFn)
-        seen.delete(id);
+    get cols() {
+        if (!this.#cols) {
+            this.#cols = Array.prototype.map.call(this[0], (_, i) => this.reduce((a, b) => a + b[i], ''));
+        }
+
+        return this.#cols.slice();
     }
 }

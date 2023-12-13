@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -9,4 +9,4 @@ for (const box of input.lines()) {
     paper += 2 * (d[0] * d[1] + d[1] * d[2] + d[0] * d[2]) + d[0] * d[1];
 }
 
-console.log(paper)
+console.log(paper);

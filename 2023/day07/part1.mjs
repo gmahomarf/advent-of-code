@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 const cardRanks = {
@@ -15,7 +15,7 @@ const cardRanks = {
     4: 3,
     3: 2,
     2: 1,
-}
+};
 
 const handStrengths = {
     X5: 7,
@@ -25,9 +25,9 @@ const handStrengths = {
     P2: 3,
     P1: 2,
     HC: 1,
-}
+};
 
-const hands = [...input.lines()].map(line => { const [hand, bid] = line.split(' '); return { hand, bid: +bid, strength: getStrength(hand) } });
+const hands = [...input.lines()].map(line => { const [hand, bid] = line.split(' '); return { hand, bid: +bid, strength: getStrength(hand) }; });
 
 hands.sort((a, b) => a.strength === b.strength ? sortEqual(a.hand, b.hand) : a.strength - b.strength);
 

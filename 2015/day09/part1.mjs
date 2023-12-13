@@ -1,9 +1,8 @@
-import { getInput } from '../../utils/input.mjs';
-import { permutations } from '../../utils/util.mjs';
+import { permutations, getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
-const distances = {}
+const distances = {};
 const places = new Set();
 
 for (const line of input.lines()) {
@@ -28,7 +27,7 @@ for (const route of routes) {
     let prev;
     for (const stop of route) {
         if (prev) {
-            distance += distances[prev][stop]
+            distance += distances[prev][stop];
             if (distance >= shortest) break;
         }
         prev = stop;

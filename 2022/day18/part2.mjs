@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -54,7 +54,7 @@ for (let x = minx; x <= maxx; x++) {
                             ...(cy < maxy ? [`${cx},${cy + 1},${cz}`] : (out = true, [])),
                             ...(cz > minz ? [`${cx},${cy},${cz - 1}`] : (out = true, [])),
                             ...(cz < maxz ? [`${cx},${cy},${cz + 1}`] : (out = true, [])),
-                        ]
+                        ];
                         for (const a of adj) {
                             if (cubes[a]) {
                                 isds++;

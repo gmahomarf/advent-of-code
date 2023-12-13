@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 // const input = await getExampleInput();
 const input = await getInput();
@@ -7,13 +7,13 @@ const you = {
     A: 1,
     B: 2,
     C: 3,
-}
+};
 
 const me = {
     X: 1,
     Y: 2,
     Z: 3
-}
+};
 
 let score = 0;
 for (const game of input.lines()) {
@@ -24,11 +24,11 @@ for (const game of input.lines()) {
             break;
         case 1:
         case -2:
-            score += 6 + me[m]
+            score += 6 + me[m];
             break;
         default:
-            score += me[m]
+            score += me[m];
     }
 }
 
-console.log(score)
+console.log(score);

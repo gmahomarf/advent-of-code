@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -6,7 +6,7 @@ const C = {
     AIR: 0,
     ROCK: 1,
     SAND: 2,
-}
+};
 
 async function run() {
     const cave = {};

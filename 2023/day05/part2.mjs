@@ -1,4 +1,4 @@
-import { getInput } from "../../utils/input.mjs";
+import { getInput } from '../../utils/index.mjs';
 
 const input = await getInput();
 
@@ -35,7 +35,7 @@ for (const line of input.lines()) {
 }
 
 for (const map of Object.values(maps)) {
-    map.sort((a, b) => a.src - b.src)
+    map.sort((a, b) => a.src - b.src);
 }
 
 let lowest = Infinity;
@@ -48,10 +48,10 @@ for await (const seed of seedIterator(seeds)) {
             c = mapper(maps[map], c);
         }
     }
-    lowest = Math.min(lowest, c)
+    lowest = Math.min(lowest, c);
 }
 
-console.log(lowest)
+console.log(lowest);
 
 function mapper(map, v) {
     for (const range of map) {
@@ -67,12 +67,12 @@ function mapper(map, v) {
 }
 
 function getSeeds(seeds) {
-    const r = []
+    const r = [];
     for (let i = 0; i < seeds.length; i += 2) {
         r.push({
             s: seeds[i],
             n: seeds[i + 1],
-        })
+        });
     }
 
     return r;

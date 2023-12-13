@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/input.mjs';
+import { getExampleInput, getInput } from '../../utils/index.mjs';
 
 export default async function solution(expansionRate) {
     const input = await getInput();
@@ -17,9 +17,9 @@ export default async function solution(expansionRate) {
 }
 
 /**
- * 
- * @param {string} input 
- * @param {number} extraSpace 
+ *
+ * @param {string} input
+ * @param {number} extraSpace
  * @returns {{x: number, y:number}[]}
  */
 function getGalaxies(input, extraSpace) {
