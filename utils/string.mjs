@@ -37,6 +37,21 @@ String.prototype.line = function (n) {
     return this.slice(i, idx < 0 ? undefined : idx);
 };
 
+/**
+ *
+ * @param {string} char
+ * @returns {number}
+ */
+String.prototype.count = function (char) {
+    if (char.length !== 1) return 0;
+    let count = 0;
+    let idx = -1;
+
+    while ((idx = this.indexOf(char, idx + 1)) !== -1) count++;
+
+    return count;
+};
+
 String.prototype.splitByEmptyLines = function* () {
     let lines = [];
     for (const line of this.lines()) {
