@@ -26,6 +26,37 @@ Array.prototype.getMany = function (...indices) {
 };
 
 /**
+ *
+ * @template T
+ * @this Array<T>
+ * @param {(o: T) => boolean} predicate
+
+ */
+Array.prototype.removeBy = function (predicate) {
+    const idx = this.findIndex(predicate);
+    if (idx !== -1) {
+        this.splice(idx, 1);
+    }
+};
+
+/**
+ *
+ * @template T
+ * @this Array<T>
+ * @param {T} item
+ * @param {(e: T, o: T) => boolean} [eqFn]
+
+ */
+Array.prototype.upsert = function (item, eqFn) {
+    const idx = this.findIndex(e => eqFn ? eqFn(e, item) : e === item);
+    if (idx !== -1) {
+        this.splice(idx, 1, item);
+    } else {
+        this.push(item);
+    }
+};
+
+/**
  * @typedef {number | string} Identity
  */
 
