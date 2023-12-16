@@ -9,5 +9,6 @@
   "license": "ISC",
   "dependencies": {
     "memoize": "^10.0.0"
-  }
+  },
+  "types": "./utils/index.d.mts"
 }

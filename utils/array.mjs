@@ -22,7 +22,8 @@ Array.prototype.repeat = function (n) {
  * @returns {T[]}
  */
 Array.prototype.getMany = function (...indices) {
-    return indices.map(i => this.at(i));
+    const mapper = (i => Array.isArray(i) ? i.map(mapper) : this.at(i));
+    return indices.map(mapper);
 };
 
 /**
