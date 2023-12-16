@@ -19,4 +19,14 @@ export class Grid extends Array {
 
         return this.#cols.slice();
     }
+
+    /**
+     * @static
+     * @template T
+     * @param {Parameters<typeof Array.from<T>>[0]} a
+     * @returns {Grid<T>}
+     */
+    static from(a) {
+        return Array.from(a);
+    }
 }

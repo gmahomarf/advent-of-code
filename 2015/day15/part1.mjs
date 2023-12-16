@@ -82,5 +82,5 @@ function* rec(ingredients, ingredList, ingredientCounts, availableTsps, scorer) 
         myTsps--;
     }
 
-    return yield* rec(ingredients, ingredList.slice(1), ingredientCounts.concat([[ingredient, 0]]), availableTsps, scorer);
+    yield* rec(ingredients, ingredList.slice(1), ingredientCounts.concat([[ingredient, 0]]), availableTsps, scorer);
 }

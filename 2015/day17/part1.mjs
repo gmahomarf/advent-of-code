@@ -15,7 +15,7 @@ async function main() {
         }
     }
 
-    console.log(possibilities);
+    // console.log(possibilities);
     console.log(possibilities.length);
 }
 
@@ -23,7 +23,7 @@ main();
 
 function* test(containers, sum, used) {
     if (!containers.length) {
-        return null;
+        return;
     }
     for (const [i, c] of containers.entries()) {
         const s = sum + c.valueOf();
@@ -32,6 +32,6 @@ function* test(containers, sum, used) {
             yield u;
         }
 
-        yield yield* test(containers.slice(i + 1), s, u);
+        yield* test(containers.slice(i + 1), s, u);
     }
 }

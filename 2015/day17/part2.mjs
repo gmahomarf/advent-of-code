@@ -17,8 +17,7 @@ async function main() {
 
     const sol = possibilities.sort((a, b) => a.length - b.length).filter(e => e.length === possibilities[0].length);
 
-    // < 231
-    console.log(sol);
+    // console.log(sol);
     console.log(sol.length);
 }
 
@@ -35,6 +34,6 @@ function* test(containers, sum, used) {
             yield u;
         }
 
-        yield yield* test(containers.slice(i + 1), s, u);
+        yield* test(containers.slice(i + 1), s, u);
     }
 }
