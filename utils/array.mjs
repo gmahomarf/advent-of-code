@@ -46,7 +46,6 @@ Array.prototype.removeBy = function (predicate) {
  * @this Array<T>
  * @param {T} item
  * @param {(e: T, o: T) => boolean} [eqFn]
-
  */
 Array.prototype.upsert = function (item, eqFn) {
     const idx = this.findIndex(e => eqFn ? eqFn(e, item) : e === item);
@@ -55,6 +54,10 @@ Array.prototype.upsert = function (item, eqFn) {
     } else {
         this.push(item);
     }
+};
+
+Array.prototype.sortInt = function () {
+    return this.sort((a, b) => a - b);
 };
 
 /**

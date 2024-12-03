@@ -4,6 +4,7 @@ declare global {
         getMany(...indices: number[]): T[];
         removeBy(predicate: (o: T) => boolean): void;
         upsert(item: T, eqFn?: (e: T, o: T) => boolean): void;
+        sortInt(): this;
     }
 }
 
