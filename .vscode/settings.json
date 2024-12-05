@@ -5,4 +5,5 @@
     "editor.formatOnSave": true,
     "javascript.format.semicolons": "insert",
     "javascript.preferences.quoteStyle": "single",
+    "github.copilot.editor.enableAutoCompletions": false,
 }
