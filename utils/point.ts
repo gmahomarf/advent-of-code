@@ -1,15 +1,18 @@
-export class Point {
-    x;
-    y;
+export type PointLike = Pick<Point, 'x' | 'y'>
 
-    constructor(x = 0, y = 0) {
-        this.x = x;
-        this.y = y;
+export class Point {
+    constructor(public x = 0, public y = 0) {
     }
 
-    static from(s: string) {
-        const [x, y] = s.split(',');
-        return new Point(+x, +y);
+    static from(s: string): Point;
+    static from(o: PointLike): Point;
+    static from(s: string | PointLike) {
+        if (typeof s === 'string') {
+            const [x, y] = s.split(',');
+            return new Point(+x, +y);
+        }
+
+        return new Point(s.x, s.y)
     }
 
     toString() {

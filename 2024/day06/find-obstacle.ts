@@ -1,5 +1,5 @@
 import { parentPort } from 'node:worker_threads';
-import { Grid, Point } from '../../utils/index';
+import { Grid, Point, PointLike } from '../../utils/index';
 
 const directionOrder = ['D', 'R', 'U', 'L'] as const;
 
@@ -28,10 +28,10 @@ function hasLoop(grid: Grid<string>, start: Point) {
     return false;
 }
 
-function findObstacle({ grid, start, point }: { grid: string[], start: Point, point: Point }) {
+function findObstacle({ grid, start, point }: { grid: string[], start: PointLike, point: PointLike }) {
     const g = Grid.from(grid) as Grid<string>;
-    const p = new Point(point.x, point.y);
-    const s = new Point(start.x, start.y);
+    const p = Point.from(point);
+    const s = Point.from(start);
     g.setAt(p, '#');
     if (hasLoop(g, s)) {
         return p;

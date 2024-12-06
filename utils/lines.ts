@@ -8,11 +8,11 @@ const Directions = {
 };
 
 export class DirectionalLineSegmentVH {
-    start: Point;
-    end: Point;
+    readonly start: Point;
+    readonly end: Point;
+    readonly direction: keyof typeof Directions;
+    readonly type: 'V' | 'H';
     #length: number = 0;
-    direction: keyof typeof Directions;
-    type: 'V' | 'H';
 
     constructor(start: Point, end: Point, direction: keyof typeof Directions) {
         this.start = start.clone();
