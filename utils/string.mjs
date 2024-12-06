@@ -11,6 +11,16 @@ String.prototype.lines = function* lines() {
     }
 };
 
+String.prototype.numberedLines = function* numberedLines() {
+    let i = 0;
+    const lines = this.lines();
+    let line;
+    while (!(line = lines.next()).done) {
+        yield [i, line.value];
+        i++;
+    }
+};
+
 /**
  *
  * @param {number} n

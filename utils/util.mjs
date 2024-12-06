@@ -20,13 +20,32 @@ export class Grid extends Array {
         return this.#cols.slice();
     }
 
-    // /**
-    //  * @static
-    //  * @template T
-    //  * @param {Parameters<typeof Array.from<T>>[0]} a
-    //  * @returns {Grid<T>}
-    //  */
-    // static from(a) {
-    //     return Grid.from(a);
-    // }
+    get height() {
+        return this.length;
+    }
+
+    get width() {
+        return this[0].length;
+    }
+
+    getAt(point) {
+        return this[point.y]?.[point.x];
+    }
+
+    setAt(point, value) {
+        const row = this[point.y];
+        if (Array.isArray(row)) {
+            row[point.x] = value;
+        } else {
+            this[point.y] = row.slice(0, point.x) + value + row.slice(point.x + 1);
+        }
+    }
+
+    /**
+     * 
+     * @returns {Grid<T>}
+     */
+    clone() {
+        return this.slice().map(r => r.slice());
+    }
 }

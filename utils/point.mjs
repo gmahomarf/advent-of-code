@@ -42,4 +42,8 @@ export class Point {
     isCenter() {
         return !this.x && !this.y;
     }
+
+    equals(p) {
+        return this.x === p.x && this.y === p.y;
+    }
 }
