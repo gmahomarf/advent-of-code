@@ -1,5 +1,6 @@
 // Copied from https://nodejs.org/docs/latest-v20.x/api/async_context.html#using-asyncresource-for-a-worker-thread-pool
 
+import { availableParallelism } from 'node:os';
 import { AsyncResource } from 'node:async_hooks';
 import { EventEmitter } from 'node:events';
 import { Worker } from 'node:worker_threads';
@@ -8,32 +9,27 @@ const kTaskInfo = Symbol('kTaskInfo');
 const kWorkerFreedEvent = Symbol('kWorkerFreedEvent');
 
 class WorkerPoolTaskInfo extends AsyncResource {
-    constructor(callback, progressCallback) {
+    constructor(callback) {
         super('WorkerPoolTaskInfo');
         this.callback = callback;
-        this.progressCallback = progressCallback;
     }
 
     done(err, result) {
         this.runInAsyncScope(this.callback, null, err, result);
         this.emitDestroy();  // `TaskInfo`s are used only once.
     }
-
-    progress(err, result) {
-        this.runInAsyncScope(this.progressCallback, null, err, result);
-    }
 }
 
 export class WorkerPool extends EventEmitter {
-    constructor(numThreads, workerUrl) {
+    constructor(workerUrl, numThreads = -1) {
         super();
-        this.numThreads = numThreads;
+        this.numThreads = numThreads < 1 ? availableParallelism() : numThreads;
         this.workerUrl = workerUrl;
         this.workers = [];
         this.freeWorkers = [];
         this.tasks = [];
 
-        for (let i = 0; i < numThreads; i++)
+        for (let i = 0; i < this.numThreads; i++)
             this.addNewWorker();
 
         // Any time the kWorkerFreedEvent is emitted, dispatch
@@ -42,24 +38,25 @@ export class WorkerPool extends EventEmitter {
             if (this.tasks.length > 0) {
                 const { task, callback } = this.tasks.shift();
                 this.runTask(task, callback);
+            } else if (this.freeWorkers.length === this.workers.length) {
+                this.emit('finished');
             }
         });
     }
 
     addNewWorker() {
-        const worker = new Worker(this.workerUrl);
+        const _eval = typeof this.workerUrl === 'string' && !this.workerUrl.startsWith('.');
+        const worker = new Worker(this.workerUrl, {
+            eval: _eval,
+        });
         worker.on('message', (result) => {
             // In case of success: Call the callback that was passed to `runTask`,
             // remove the `TaskInfo` associated with the Worker, and mark it as free
             // again.
-            if (worker[kTaskInfo].progressCallback) {
-                worker[kTaskInfo].progress(null, result);
-            } else {
-                worker[kTaskInfo].done(null, result);
-                worker[kTaskInfo] = null;
-                this.freeWorkers.push(worker);
-                this.emit(kWorkerFreedEvent);
-            }
+            worker[kTaskInfo].done(null, result);
+            worker[kTaskInfo] = null;
+            this.freeWorkers.push(worker);
+            this.emit(kWorkerFreedEvent);
         });
         worker.on('error', (err) => {
             // In case of an uncaught exception: Call the callback that was passed to
@@ -78,7 +75,7 @@ export class WorkerPool extends EventEmitter {
         this.emit(kWorkerFreedEvent);
     }
 
-    runTask(task, callback, progressCallback = () => { }) {
+    runTask(task, callback) {
         if (this.freeWorkers.length === 0) {
             // No free threads, wait until a worker thread becomes free.
             this.tasks.push({ task, callback });
@@ -86,12 +83,23 @@ export class WorkerPool extends EventEmitter {
         }
 
         const worker = this.freeWorkers.pop();
-        worker[kTaskInfo] = new WorkerPoolTaskInfo(callback, progressCallback);
+        worker[kTaskInfo] = new WorkerPoolTaskInfo(callback);
         worker.postMessage(task);
     }
 
-    async close(data) {
-        await Promise.all(this.workers.map(w => w.terminate()))
-        this.emit('close', data);
+    close() {
+        for (const worker of this.workers) worker.terminate();
+    }
+
+    async waitUntilFinished() {
+        return new Promise((resolve, reject) => {
+            this.on('finished', resolve);
+            this.on('error', reject);
+        });
+    }
+
+    async waitUntilFinishedAndClose() {
+        await this.waitUntilFinished();
+        this.close();
     }
 }

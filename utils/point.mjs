@@ -7,6 +7,11 @@ export class Point {
         this.y = y;
     }
 
+    static from(s) {
+        const [x, y] = s.split(',');
+        return new Point(+x, +y);
+    }
+
     toString() {
         return `${this.x},${this.y}`;
     }
