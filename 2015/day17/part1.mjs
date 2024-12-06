@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, permutations } from '../../utils/index.mjs';
+import { getExampleInput, getInput, permutations } from '../../utils/index';
 
 const LITERS = 150;
 // const LITERS = 25;

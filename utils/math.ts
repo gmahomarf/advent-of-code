@@ -1,5 +1,5 @@
 
-export function lcm(...numbers) {
+export function lcm(...numbers: number[]): number {
     if (numbers.length < 2) {
         return numbers[0];
     }
@@ -12,11 +12,11 @@ export function lcm(...numbers) {
  *
  * @param  {...any} numbers
  */
-function _lcm(a, b) {
+function _lcm(a: number, b: number) {
     return Math.abs(a * b) / _gcd(a, b);
 }
 
-export function gcd(...numbers) {
+export function gcd(...numbers: number[]) {
     if (numbers.length < 2) {
         return numbers[0];
     }
@@ -28,7 +28,7 @@ export function gcd(...numbers) {
  * GCD definition taken from
  * https://en.wikipedia.org/wiki/Euclidean_algorithm#Implementations
  */
-function _gcd(a, b) {
+function _gcd(a: number, b: number) {
     let t;
     while (b !== 0) {
         t = b;
@@ -39,22 +39,12 @@ function _gcd(a, b) {
     return a;
 }
 
-/**
- * @template T
- * @param {T} a
- * @param {T} b
- * @returns {T}
- */
-export function sum(a, b) {
+export function sum(a: number, b: number): number;
+export function sum(a: bigint, b: bigint): bigint;
+export function sum(a: any, b: any): typeof a {
     return a + b;
 }
 
-/**
- *
- * @param {number} a
- * @param {number} b
- * @returns {number[]}
- */
-export function range(a, b) {
+export function range(a: number, b: number) {
     return Array.from({ length: b - a + 1 }).map((_, i) => i + a);
 }

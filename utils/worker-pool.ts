@@ -8,23 +8,30 @@ import { Worker } from 'node:worker_threads';
 const kTaskInfo = Symbol('kTaskInfo');
 const kWorkerFreedEvent = Symbol('kWorkerFreedEvent');
 
-class WorkerPoolTaskInfo extends AsyncResource {
-    constructor(callback) {
+type WorkerCallback<T> = (err: Error | null, message: T | null) => void
+class WorkerWithInfo<T> extends Worker {
+    [kTaskInfo]: WorkerPoolTaskInfo<T> | null = null;
+}
+
+class WorkerPoolTaskInfo<T> extends AsyncResource {
+    constructor(readonly callback: WorkerCallback<T>) {
         super('WorkerPoolTaskInfo');
-        this.callback = callback;
     }
 
-    done(err, result) {
+    done(...[err, result]: Parameters<WorkerCallback<T>>) {
         this.runInAsyncScope(this.callback, null, err, result);
         this.emitDestroy();  // `TaskInfo`s are used only once.
     }
 }
 
-export class WorkerPool extends EventEmitter {
-    constructor(workerUrl, numThreads = -1) {
+export class WorkerPool<Task, Result> extends EventEmitter {
+    readonly numThreads: number;
+    readonly workers: WorkerWithInfo<Result>[];
+    readonly freeWorkers: WorkerWithInfo<Result>[];
+    readonly tasks: { task: Task, callback: WorkerCallback<Result> }[]
+    constructor(public readonly workerUrl: string, numThreads = -1) {
         super();
         this.numThreads = numThreads < 1 ? availableParallelism() : numThreads;
-        this.workerUrl = workerUrl;
         this.workers = [];
         this.freeWorkers = [];
         this.tasks = [];
@@ -36,7 +43,7 @@ export class WorkerPool extends EventEmitter {
         // the next task pending in the queue, if any.
         this.on(kWorkerFreedEvent, () => {
             if (this.tasks.length > 0) {
-                const { task, callback } = this.tasks.shift();
+                const { task, callback } = this.tasks.shift()!;
                 this.runTask(task, callback);
             } else if (this.freeWorkers.length === this.workers.length) {
                 this.emit('finished');
@@ -46,14 +53,14 @@ export class WorkerPool extends EventEmitter {
 
     addNewWorker() {
         const _eval = typeof this.workerUrl === 'string' && !this.workerUrl.startsWith('.');
-        const worker = new Worker(this.workerUrl, {
+        const worker = new WorkerWithInfo<Result>(this.workerUrl, {
             eval: _eval,
         });
         worker.on('message', (result) => {
             // In case of success: Call the callback that was passed to `runTask`,
             // remove the `TaskInfo` associated with the Worker, and mark it as free
             // again.
-            worker[kTaskInfo].done(null, result);
+            worker[kTaskInfo]?.done(null, result);
             worker[kTaskInfo] = null;
             this.freeWorkers.push(worker);
             this.emit(kWorkerFreedEvent);
@@ -75,14 +82,14 @@ export class WorkerPool extends EventEmitter {
         this.emit(kWorkerFreedEvent);
     }
 
-    runTask(task, callback) {
+    runTask(task: Task, callback: WorkerCallback<Result>) {
         if (this.freeWorkers.length === 0) {
             // No free threads, wait until a worker thread becomes free.
             this.tasks.push({ task, callback });
             return;
         }
 
-        const worker = this.freeWorkers.pop();
+        const worker = this.freeWorkers.pop()!;
         worker[kTaskInfo] = new WorkerPoolTaskInfo(callback);
         worker.postMessage(task);
     }

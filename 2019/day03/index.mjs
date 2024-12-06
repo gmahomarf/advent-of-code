@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, Point, DirectionalLineSegmentVH } from '../../utils/index.mjs';
+import { getExampleInput, getInput, Point, DirectionalLineSegmentVH } from '../../utils/index';
 
 const input = await getInput();
 

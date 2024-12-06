@@ -1,9 +1,9 @@
 import { parentPort } from 'node:worker_threads';
-import { Grid, Point } from '../../utils/index.mjs';
+import { Grid, Point } from '../../utils/index';
 
-const directionOrder = ['D', 'R', 'U', 'L'];
+const directionOrder = ['D', 'R', 'U', 'L'] as const;
 
-function hasLoop(grid, start) {
+function hasLoop(grid: Grid<string>, start: Point) {
     const pos = start.clone();
     const steps = new Set();
     for (let i = 0; ; i = ++i % 4) {
@@ -28,8 +28,8 @@ function hasLoop(grid, start) {
     return false;
 }
 
-function findObstacle({ grid, start, point }) {
-    const g = Grid.from(grid);
+function findObstacle({ grid, start, point }: { grid: string[], start: Point, point: Point }) {
+    const g = Grid.from(grid) as Grid<string>;
     const p = new Point(point.x, point.y);
     const s = new Point(start.x, start.y);
     g.setAt(p, '#');
@@ -38,6 +38,6 @@ function findObstacle({ grid, start, point }) {
     }
 }
 
-parentPort.on('message', (task) => {
-    parentPort.postMessage(findObstacle(task));
+parentPort!.on('message', (task) => {
+    parentPort!.postMessage(findObstacle(task));
 });

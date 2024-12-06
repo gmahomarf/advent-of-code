@@ -1,6 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
-import { range } from '../../utils/math.mjs';
-import { Grid } from '../../utils/index.mjs';
+import { getExampleInput, getInput, Grid, range } from '../../utils/index';
 
 async function main() {
     const input = await getInput();

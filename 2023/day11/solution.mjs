@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
+import { getExampleInput, getInput } from '../../utils/index';
 
 export default async function solution(expansionRate) {
     const input = await getInput();

@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
+import { getExampleInput, getInput } from '../../utils/index';
 import { possibilities, possibilitiesDebug } from './solution.mjs';
 
 async function main() {

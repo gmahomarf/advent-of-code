@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, Grid, Point } from '../../utils/index.mjs';
+import { getExampleInput, getInput, Grid, Point } from '../../utils/index';
 
 const input = await getInput();
 

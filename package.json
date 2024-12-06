@@ -10,5 +10,11 @@
   "dependencies": {
     "memoize": "^10.0.0"
   },
-  "types": "./utils/index.d.mts"
+  "devDependencies": {
+    "@swc/core": "^1.10.0",
+    "@swc/helpers": "^0.5.15",
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
 }

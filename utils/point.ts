@@ -7,7 +7,7 @@ export class Point {
         this.y = y;
     }
 
-    static from(s) {
+    static from(s: string) {
         const [x, y] = s.split(',');
         return new Point(+x, +y);
     }
@@ -36,7 +36,7 @@ export class Point {
         return this;
     }
 
-    manhattanDistance(other) {
+    manhattanDistance(other: Point) {
         return Math.abs(other.x - this.x) + Math.abs(other.y - this.y);
     }
 
@@ -48,7 +48,7 @@ export class Point {
         return !this.x && !this.y;
     }
 
-    equals(p) {
+    equals(p: Point) {
         return this.x === p.x && this.y === p.y;
     }
 }

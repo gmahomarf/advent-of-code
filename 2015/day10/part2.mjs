@@ -1,4 +1,4 @@
-import { getInput } from '../../utils/index.mjs';
+import { getInput } from '../../utils/index';
 
 const input = await getInput();
 const re = /1+|2+|3+|4+|5+|6+|7+|8+|9+/g;

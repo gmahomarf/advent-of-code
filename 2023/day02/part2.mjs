@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
+import { getExampleInput, getInput } from '../../utils/index';
 
 // const input = await getExampleInput();
 const input = await getInput();

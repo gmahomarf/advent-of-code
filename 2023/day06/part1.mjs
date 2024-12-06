@@ -1,4 +1,4 @@
-import { getInput } from '../../utils/index.mjs';
+import { getInput } from '../../utils/index';
 
 const input = await getInput();
 const [times, distances] = [...input.lines()].map(l => l.split(/ +/).slice(1).map(Number));

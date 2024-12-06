@@ -1,4 +1,4 @@
-import { Grid, getExampleInput, getInput, sum } from '../../utils/index.mjs';
+import { Grid, getExampleInput, getInput, sum } from '../../utils/index';
 
 main();
 

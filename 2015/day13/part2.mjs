@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, permutations } from '../../utils/index.mjs';
+import { getExampleInput, getInput, permutations } from '../../utils/index';
 
 async function main() {
     const input = await getInput();

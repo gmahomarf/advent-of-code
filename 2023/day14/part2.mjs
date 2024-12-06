@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
+import { getExampleInput, getInput } from '../../utils/index';
 import memoize from 'memoize';
 import { tilt, getLoad } from './common.mjs';
 

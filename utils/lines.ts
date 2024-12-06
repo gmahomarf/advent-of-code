@@ -1,4 +1,4 @@
-import { Point } from './point.mjs';
+import { Point } from './point';
 
 const Directions = {
     L: '<',
@@ -8,34 +8,13 @@ const Directions = {
 };
 
 export class DirectionalLineSegmentVH {
-    /**
-     * @type {Point}
-     */
-    start;
-    /**
-     * @type {Point}
-     */
-    end;
-    /**
-     * @type {number}
-     */
-    #length;
-    /**
-     * @type {keyof Directions}
-     */
-    direction;
-    /**
-     * @type {'V' | 'H'}
-     */
-    type;
+    start: Point;
+    end: Point;
+    #length: number = 0;
+    direction: keyof typeof Directions;
+    type: 'V' | 'H';
 
-    /**
-     * 
-     * @param {Point} start 
-     * @param {Point} end 
-     * @param {keyof Directions} [direction] Calculated if null
-     */
-    constructor(start, end, direction) {
+    constructor(start: Point, end: Point, direction: keyof typeof Directions) {
         this.start = start.clone();
         this.end = end.clone();
         this.type = start.x === end.x ? 'V' : start.y === end.y ? 'H' : function () { throw new Error('Not a vertical or horizontal line'); }();
@@ -59,11 +38,7 @@ export class DirectionalLineSegmentVH {
         return `${this.direction}: (${this.start}) - (${this.end})`;
     }
 
-    /**
-     * 
-     * @param {Point} point 
-     */
-    hasPoint(point) {
+    hasPoint(point: Point) {
         if (this.type === 'V') {
             return point.x === this.start.x && (point.y >= this.start.y && point.y <= this.end.y || point.y >= this.end.y && point.y <= this.start.y);
         }
@@ -71,11 +46,7 @@ export class DirectionalLineSegmentVH {
         return point.y === this.start.y && (point.x >= this.start.x && point.x <= this.end.x || point.x >= this.end.x && point.x <= this.start.x);
     }
 
-    /**
-     * 
-     * @param {DirectionalLineSegmentVH} segment 
-     */
-    intersectionWith(segment) {
+    intersectionWith(segment: DirectionalLineSegmentVH) {
         if (this.type === segment.type) {
             return null;
         }

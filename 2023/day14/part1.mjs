@@ -1,4 +1,4 @@
-import { getExampleInput, getInput } from '../../utils/index.mjs';
+import { getExampleInput, getInput } from '../../utils/index';
 import { getLoad, tilt } from './common.mjs';
 
 async function main() {

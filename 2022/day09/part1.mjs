@@ -1,6 +1,6 @@
 import readline from 'node:readline';
 import { setTimeout } from 'node:timers/promises';
-import { getInput } from '../../utils/index.mjs';
+import { getInput } from '../../utils/index';
 
 const { abs, sign } = Math;
 
