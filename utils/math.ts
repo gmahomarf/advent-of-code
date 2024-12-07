@@ -39,15 +39,13 @@ function _gcd(a: number, b: number) {
     return a;
 }
 
-export function add(a: number, b: number): number;
-export function add(a: bigint, b: bigint): bigint;
-export function add(a: any, b: any): typeof a {
+export function add<T extends number | bigint>(a: T, b: T): T;
+export function add(a: any, b: any) {
     return a + b;
 }
 
-export function mul(a: number, b: number): number;
-export function mul(a: bigint, b: bigint): bigint;
-export function mul(a: any, b: any): typeof a {
+export function mul<T extends number | bigint>(a: T, b: T): T;
+export function mul(a: any, b: any) {
     return a * b;
 }
 

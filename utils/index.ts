@@ -6,3 +6,4 @@ export * from './number';
 export * from './point';
 export * from './string';
 export * from './util';
+export * from './worker-pool';

@@ -1,5 +1,5 @@
 import { parentPort } from 'node:worker_threads';
-import { add, mul } from '../../utils';
+import { add, mul } from '../../utils/index';
 
 function concat(a: number, b: number): number {
     return Number('' + a + b);

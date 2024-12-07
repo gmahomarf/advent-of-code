@@ -44,17 +44,17 @@ Array.prototype.sortInt = function <T extends number>(this: T[]) {
     return this.sort((a, b) => a - b);
 };
 
-export function permutations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
+export function combinations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
     const r: T[][] = [];
 
-    _permutations(options, r, new Map<Identity, T>(), idFn!);
+    _combinations(options, r, new Map<Identity, T>(), idFn!);
 
     return r;
 }
 
-function _permutations<T extends Identity>(opts: T[], results: T[][], seen: Map<T, T>): void;
-function _permutations<T, I extends Identity>(opts: T[], results: T[][], seen: Map<I, T>, idFn: IdentityFn<T>): void;
-function _permutations<T>(opts: T[], results: T[][], seen: Map<Identity, T>, idFn?: IdentityFn<T>) {
+function _combinations<T extends Identity>(opts: T[], results: T[][], seen: Map<T, T>): void;
+function _combinations<T, I extends Identity>(opts: T[], results: T[][], seen: Map<I, T>, idFn: IdentityFn<T>): void;
+function _combinations<T>(opts: T[], results: T[][], seen: Map<Identity, T>, idFn?: IdentityFn<T>) {
     if (seen.size === opts.length) {
         results.push(Array.from(seen.values()));
     }
@@ -62,7 +62,7 @@ function _permutations<T>(opts: T[], results: T[][], seen: Map<Identity, T>, idF
     for (const option of opts) {
         const id = idFn ? idFn(option) : option as Identity;
         if (seen.has(id)) continue;
-        _permutations(opts, results, seen.set(id, option), idFn!);
+        _combinations(opts, results, seen.set(id, option), idFn!);
         seen.delete(id);
     }
 }
