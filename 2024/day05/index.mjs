@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, sum } from '../../utils/index';
+import { getExampleInput, getInput, add } from '../../utils/index';
 
 const input = await getInput();
 
@@ -37,7 +37,7 @@ function part1(rules, pageLists) {
         flag && inOrder.push(pages);
     }
 
-    console.log(inOrder.map(p => +p[(p.length / 2) | 0]).reduce(sum));
+    console.log(inOrder.map(p => +p[(p.length / 2) | 0]).reduce(add));
 }
 
 async function part2(rules, pageLists) {
@@ -58,7 +58,7 @@ async function part2(rules, pageLists) {
         return rules[a]?.[b] ? -1 : rules[b]?.[a] ? 1 : 0;
     }));
 
-    console.log(notInOrder.map(p => +p[(p.length / 2) | 0]).reduce(sum));
+    console.log(notInOrder.map(p => +p[(p.length / 2) | 0]).reduce(add));
 }
 
 const { pageLists, rules } = await parse();

@@ -1,4 +1,4 @@
-import { Grid, getExampleInput, getInput, sum } from '../../utils/index';
+import { Grid, getExampleInput, getInput, add } from '../../utils/index';
 
 main();
 

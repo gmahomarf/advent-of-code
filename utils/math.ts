@@ -39,10 +39,16 @@ function _gcd(a: number, b: number) {
     return a;
 }
 
-export function sum(a: number, b: number): number;
-export function sum(a: bigint, b: bigint): bigint;
-export function sum(a: any, b: any): typeof a {
+export function add(a: number, b: number): number;
+export function add(a: bigint, b: bigint): bigint;
+export function add(a: any, b: any): typeof a {
     return a + b;
+}
+
+export function mul(a: number, b: number): number;
+export function mul(a: bigint, b: bigint): bigint;
+export function mul(a: any, b: any): typeof a {
+    return a * b;
 }
 
 export function range(a: number, b: number) {

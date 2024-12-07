@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, sum } from '../../utils/index';
+import { getExampleInput, getInput, add } from '../../utils/index';
 
 main();
 
@@ -6,7 +6,7 @@ async function main() {
     const input = await getInput();
     // const input = await getExampleInput();
 
-    console.log(input.split(',').map(hash).reduce(sum));
+    console.log(input.split(',').map(hash).reduce(add));
 }
 
 /**

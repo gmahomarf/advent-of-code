@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, sum } from '../../utils/index';
+import { getExampleInput, getInput, add } from '../../utils/index';
 
 main();
 

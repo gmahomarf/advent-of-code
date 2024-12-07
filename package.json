@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "My AoC solutions. That's it",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsx": "cd $INIT_CWD; tsx"
   },
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "memoize": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
 }

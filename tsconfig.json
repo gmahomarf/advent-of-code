@@ -2,6 +2,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "customConditions": [
+      "module"
+    ],
+    "noEmit": true,
     "allowJs": true,
     "checkJs": false,
     "outDir": "./dist",
