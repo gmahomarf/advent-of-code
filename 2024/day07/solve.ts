@@ -5,7 +5,7 @@ function concat(a: number, b: number): number {
     return Number('' + a + b);
 }
 
-function dostuff({ part, equation }: { part: 1 | 2, equation: number[] }) {
+export function solve({ part, equation }: { part: 1 | 2, equation: number[] }) {
     if (part === 1) {
         return part1(equation);
     }
@@ -57,6 +57,6 @@ function part2(equation: number[]) {
     return 0;
 }
 
-parentPort!.on('message', (task) => {
-    parentPort!.postMessage(dostuff(task));
+parentPort && parentPort.on('message', (task) => {
+    parentPort!.postMessage(solve(task));
 });
