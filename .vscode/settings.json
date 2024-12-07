@@ -6,4 +6,10 @@
     "javascript.format.semicolons": "insert",
     "javascript.preferences.quoteStyle": "single",
     "github.copilot.editor.enableAutoCompletions": false,
+    "terminal.integrated.env.osx": {
+        "NODE_OPTIONS": "--import tsx"
+    },
+    "terminal.integrated.env.linux": {
+        "NODE_OPTIONS": "--import tsx"
+    },
 }

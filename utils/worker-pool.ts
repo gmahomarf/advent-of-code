@@ -1,5 +1,9 @@
 // Copied from https://nodejs.org/docs/latest-v20.x/api/async_context.html#using-asyncresource-for-a-worker-thread-pool
 
+declare global {
+    var Bun: unknown;
+}
+
 import { availableParallelism } from 'node:os';
 import { AsyncResource } from 'node:async_hooks';
 import { EventEmitter } from 'node:events';
@@ -29,7 +33,7 @@ export class WorkerPool<Task, Result> extends EventEmitter {
     readonly workers: WorkerWithInfo<Result>[];
     readonly freeWorkers: WorkerWithInfo<Result>[];
     readonly tasks: { task: Task, callback: WorkerCallback<Result> }[]
-    constructor(public readonly workerUrl: string, numThreads = -1) {
+    constructor(public readonly workerUrl: string | URL, numThreads = -1) {
         super();
         this.numThreads = numThreads < 1 ? availableParallelism() : numThreads;
         this.workers = [];
@@ -52,10 +56,13 @@ export class WorkerPool<Task, Result> extends EventEmitter {
     }
 
     addNewWorker() {
-        const _eval = typeof this.workerUrl === 'string' && !this.workerUrl.startsWith('.');
-        const worker = new WorkerWithInfo<Result>(this.workerUrl, {
-            eval: _eval,
-        });
+        // Bun can run this fine. tsx can't
+        // See https://github.com/nodejs/node/issues/47747#issuecomment-2287745567
+        const worker = !global.Bun && this.workerUrl.toString().endsWith('.ts') ?
+            new WorkerWithInfo<Result>(getTSXWrappedImport(this.workerUrl), {
+                eval: true,
+            })
+            : new WorkerWithInfo<Result>(this.workerUrl);
         worker.on('message', (result) => {
             // In case of success: Call the callback that was passed to `runTask`,
             // remove the `TaskInfo` associated with the Worker, and mark it as free
@@ -109,4 +116,8 @@ export class WorkerPool<Task, Result> extends EventEmitter {
         await this.waitUntilFinished();
         this.close();
     }
+}
+
+function getTSXWrappedImport(importUrl: string | URL) {
+    return `import('tsx/esm/api').then(({ register }) => { register(); import('${importUrl}') })`
 }
