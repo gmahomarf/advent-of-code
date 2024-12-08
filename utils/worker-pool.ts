@@ -12,7 +12,7 @@ import { Worker } from 'node:worker_threads';
 const kTaskInfo = Symbol('kTaskInfo');
 const kWorkerFreedEvent = Symbol('kWorkerFreedEvent');
 
-type WorkerCallback<T> = (err: Error | null, message: T | null) => void
+type WorkerCallback<T> = ((err: Error | null, message: T) => void);
 class WorkerWithInfo<T> extends Worker {
     [kTaskInfo]: WorkerPoolTaskInfo<T> | null = null;
 }
@@ -28,11 +28,18 @@ class WorkerPoolTaskInfo<T> extends AsyncResource {
     }
 }
 
-export class WorkerPool<Task, Result> extends EventEmitter {
+type WorkerPoolEvents = {
+    'finished': never[],
+    'error': [Error],
+    [kWorkerFreedEvent]: never[],
+}
+
+export class WorkerPool<Task, Result> extends EventEmitter<WorkerPoolEvents> {
     readonly numThreads: number;
     readonly workers: WorkerWithInfo<Result>[];
     readonly freeWorkers: WorkerWithInfo<Result>[];
     readonly tasks: { task: Task, callback: WorkerCallback<Result> }[]
+
     constructor(public readonly workerUrl: string | URL, numThreads = -1) {
         super();
         this.numThreads = numThreads < 1 ? availableParallelism() : numThreads;
@@ -75,14 +82,14 @@ export class WorkerPool<Task, Result> extends EventEmitter {
         worker.on('error', (err) => {
             // In case of an uncaught exception: Call the callback that was passed to
             // `runTask` with the error.
-            if (worker[kTaskInfo])
-                worker[kTaskInfo].done(err, null);
-            else
-                this.emit('error', err);
+            // if (worker[kTaskInfo])
+            //     worker[kTaskInfo].done(err, null);
+            // else
+            this.emit('error', err);
             // Remove the worker from the list and start a new Worker to replace the
             // current one.
-            this.workers.splice(this.workers.indexOf(worker), 1);
-            this.addNewWorker();
+            // this.workers.splice(this.workers.indexOf(worker), 1);
+            // this.addNewWorker();
         });
         this.workers.push(worker);
         this.freeWorkers.push(worker);

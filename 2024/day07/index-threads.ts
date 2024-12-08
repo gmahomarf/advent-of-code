@@ -1,9 +1,10 @@
-import { getExampleInput, getInput, mul, add } from '../../utils/index';
+import { isMainThread, parentPort } from 'worker_threads';
+import { getExampleInput, getInput } from '../../utils/index';
 import { WorkerPool } from '../../utils/worker-pool';
-
-const input = await getInput();
+import { solve } from './solve';
 
 async function parse() {
+    const input = await getInput();
     const equations: number[][] = [];
     for await (const line of input.lines()) {
         equations.push(line.split(/:? /).map(Number));
@@ -14,15 +15,15 @@ async function parse() {
     };
 }
 
-function solve(equations: number[][]) {
+function run(equations: number[][]) {
     let sums = [0, 0];
-    const pool = new WorkerPool<unknown, number>('./solve.ts');
+    const pool = new WorkerPool<unknown, number>(new URL(import.meta.url));
     for (const equation of equations) {
         pool.runTask({ equation, part: 1 }, (_, r) => {
-            sums[0] += r!;
+            sums[0] += r;
         })
         pool.runTask({ equation, part: 2 }, (_, r) => {
-            sums[1] += r!;
+            sums[1] += r;
         })
     }
 
@@ -32,6 +33,11 @@ function solve(equations: number[][]) {
     })
 }
 
-const { equations } = await parse();
-
-solve(equations);
+if (!parentPort) {
+    const { equations } = await parse();
+    run(equations);
+} else {
+    parentPort.on('message', (task) => {
+        parentPort!.postMessage(solve(task));
+    });
+}

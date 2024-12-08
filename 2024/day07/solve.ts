@@ -1,4 +1,3 @@
-import { parentPort } from 'node:worker_threads';
 import { add, mul } from '../../utils/index';
 
 function concat(a: number, b: number): number {
@@ -56,7 +55,3 @@ function part2(equation: number[]) {
 
     return 0;
 }
-
-parentPort && parentPort.on('message', (task) => {
-    parentPort!.postMessage(solve(task));
-});
