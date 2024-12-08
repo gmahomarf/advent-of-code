@@ -23,6 +23,10 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
         return this[0].length;
     }
 
+    toString() {
+        return this.map(row => Array.prototype.join.call(row, '')).join('\n');
+    }
+
     getAt(point: Point) {
         return this[point.y]?.[point.x];
     }
@@ -38,5 +42,9 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
 
     clone(): Grid<T> {
         return this.slice().map(r => r.slice()) as Grid<T>;
+    }
+
+    hasPoint(p: Point) {
+        return p.x >= 0 && p.x < this.width && p.y >= 0 && p.y < this.height
     }
 }
