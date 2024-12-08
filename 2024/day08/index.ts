@@ -28,14 +28,12 @@ function findAntinodes(grid: Grid<string>, antennae: Antennae[string], includeAn
         const a1 = antennae[i];
         for (let j = i + 1; j < antennae.length; j++) {
             const a2 = antennae[j];
-            const m = (a2.y - a1.y) / (a2.x - a1.x);
-            const b = a1.y - m * a1.x;
             const dx = a1.x - a2.x;
+            const dy = a1.y - a2.y;
             for (let n = 0; n < (limit || Infinity); n++) {
                 const cdx = dx * (n + 1);
-                const p1x = a1.x + cdx,
-                    p2x = a2.x - cdx;
-                const an: Point[] = [new Point(p1x, Math.round(m * p1x + b)), new Point(p2x, Math.round(m * p2x + b))]
+                const cdy = dy * (n + 1);
+                const an: Point[] = [a1.plus(cdx, cdy), a2.plus(-cdx, -cdy)]
                     .filter(p => grid.hasPoint(p));
                 if (!an.length) {
                     break;

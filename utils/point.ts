@@ -54,4 +54,13 @@ export class Point {
     equals(p: Point) {
         return this.x === p.x && this.y === p.y;
     }
+
+    plus(p: Point): Point;
+    plus(x: number, y: number): Point;
+    plus(pointOrX: Point | number, y?: number) {
+        if (typeof pointOrX === 'number') {
+            return new Point(this.x + pointOrX, this.y + y!);
+        }
+        return new Point(this.x + pointOrX.x, this.y + pointOrX.y)
+    }
 }
