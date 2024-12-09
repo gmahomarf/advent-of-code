@@ -1,5 +1,6 @@
 interface String {
     lines(this: String): Generator<string, void, void>;
+    entries(this: String): Generator<[number, string], void, void>;
     splitByEmptyLines(this: String): Generator<string[], void, void>;
     numberedLines(this: String): Generator<[number, string], void, void>;
     line(this: String, n: number): string;
@@ -77,3 +78,9 @@ String.prototype.splitByEmptyLines = function* () {
         yield lines.slice();
     }
 };
+
+String.prototype.entries = function* () {
+    for (let i = 0; i < this.length; i++) {
+        yield [+i, this[i]];
+    }
+}

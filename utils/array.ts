@@ -5,6 +5,9 @@ declare global {
         removeBy(predicate: (o: T) => boolean): void;
         upsert(item: T, eqFn?: (e: T, o: T) => boolean): void;
         sortInt(): this;
+        equals(other: T[]): boolean;
+        findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
+        findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
     }
 }
 
@@ -43,6 +46,40 @@ Array.prototype.upsert = function <T>(this: T[], item: T, eqFn: (e: T, o: T) => 
 Array.prototype.sortInt = function <T extends number>(this: T[]) {
     return this.sort((a, b) => a - b);
 };
+
+Array.prototype.equals = function <T>(this: T[], other: T[]) {
+    if (this.length !== other.length) {
+        return false;
+    }
+
+    for (let i = 0; i < this.length; i++) {
+        if (this[i] !== other[i]) {
+            return false;
+        }
+    }
+
+    return true
+};
+
+Array.prototype.findIndexFrom = function <T>(start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
+    for (let i = start; i < this.length; i++) {
+        if (predicate(this[i], i, this)) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+Array.prototype.findLastIndexFrom = function <T>(start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
+    for (let i = start; i >= 0; i--) {
+        if (predicate(this[i], i, this)) {
+            return i;
+        }
+    }
+
+    return -1;
+}
 
 export function combinations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
     const r: T[][] = [];
