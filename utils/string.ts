@@ -1,10 +1,11 @@
 interface String {
-    lines(this: String): Generator<string, void, void>;
-    entries(this: String): Generator<[number, string], void, void>;
-    splitByEmptyLines(this: String): Generator<string[], void, void>;
-    numberedLines(this: String): Generator<[number, string], void, void>;
-    line(this: String, n: number): string;
-    count(this: String, char: string): number;
+    lines(): Generator<string, void, void>;
+    entries(): Generator<[number, string], void, void>;
+    splitByEmptyLines(): Generator<string[], void, void>;
+    numberedLines(): Generator<[number, string], void, void>;
+    line(n: number): string;
+    count(char: string): number;
+    allIndicesOf(char: string): Generator<number, void>;
 }
 
 String.prototype.lines = function* lines() {
@@ -82,5 +83,12 @@ String.prototype.splitByEmptyLines = function* () {
 String.prototype.entries = function* () {
     for (let i = 0; i < this.length; i++) {
         yield [+i, this[i]];
+    }
+}
+
+String.prototype.allIndicesOf = function* (char) {
+    let i = -1;
+    while ((i = this.indexOf(char, i + 1)) !== -1) {
+        yield i;
     }
 }

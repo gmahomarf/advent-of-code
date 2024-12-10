@@ -24,7 +24,7 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
     }
 
     toString() {
-        return this.map(row => Array.prototype.join.call(row, '')).join('\n');
+        return this.map(row => Array.isArray(row) ? row.join('') : row).join('\n');
     }
 
     getAt(point: Point) {
