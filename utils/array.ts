@@ -8,6 +8,7 @@ declare global {
         equals(other: T[]): boolean;
         findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
         findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
+        counts<Item extends T & (number | string)>(): Map<Item, number>;
     }
 }
 
@@ -79,6 +80,10 @@ Array.prototype.findLastIndexFrom = function <T>(start: number, predicate: (valu
     }
 
     return -1;
+}
+
+Array.prototype.counts = function () {
+    return new Map(this.map(e => [e, 1]));
 }
 
 export function combinations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
