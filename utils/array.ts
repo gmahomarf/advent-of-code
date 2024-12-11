@@ -72,7 +72,7 @@ Array.prototype.findIndexFrom = function <T>(start: number, predicate: (value: T
     return -1;
 }
 
-Array.prototype.findLastIndexFrom = function <T>(start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
+Array.prototype.findLastIndexFrom = function <T>(this: T[], start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
     for (let i = start; i >= 0; i--) {
         if (predicate(this[i], i, this)) {
             return i;
@@ -82,8 +82,11 @@ Array.prototype.findLastIndexFrom = function <T>(start: number, predicate: (valu
     return -1;
 }
 
-Array.prototype.counts = function () {
-    return new Map(this.map(e => [e, 1]));
+Array.prototype.counts = function <T>(this: T[]) {
+    return this.reduce((m, e) => {
+        m.set(e, (m.get(e) ?? 0) + 1);
+        return m;
+    }, new Map<T, number>());
 }
 
 export function combinations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
