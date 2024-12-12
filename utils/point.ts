@@ -64,3 +64,10 @@ export class Point {
         return new Point(this.x + pointOrX.x, this.y + pointOrX.y)
     }
 }
+
+export const DIRECTIONS: Readonly<Point[]> = [
+    new Point(0, -1),
+    new Point(0, 1),
+    new Point(1, 0),
+    new Point(-1, 0),
+]

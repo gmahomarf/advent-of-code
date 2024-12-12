@@ -23,6 +23,14 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
         return this[0].length;
     }
 
+    *gridEntries(): Generator<[Point, T[number]], void, void> {
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                yield [new Point(x, y), this[y][x]]
+            }
+        }
+    }
+
     toString() {
         return this.map(row => Array.isArray(row) ? row.join('') : row).join('\n');
     }
@@ -41,7 +49,7 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
     }
 
     clone(): Grid<T> {
-        return this.slice().map(r => r.slice()) as Grid<T>;
+        return new Grid(...this.slice().map(r => r.slice() as T));
     }
 
     hasPoint(p: Point) {
