@@ -1,6 +1,5 @@
 import { getExampleInput, getInput, add } from '../../utils/index';
-import { bareiss, Matrix } from '../../utils/matrix';
-
+import { Matrix } from '../../utils/matrix';
 
 async function parse() {
     const input = await getInput();
@@ -27,9 +26,7 @@ const B = 1;
 function part1(matrices: Matrix[]) {
     const winners: [number, number][] = [];
     for (const m of matrices) {
-        const mm = bareiss(m.clone());
-        const b = mm[1][2] / mm[1][1];
-        const a = (mm[0][2] - mm[0][1] * b) / mm[0][0];
+        const [a, b] = m.solveLinearSystem();
         if (Number.isInteger(a) && a <= 100 && Number.isInteger(b) && b <= 100) {
             winners.push([a, b]);
         }
@@ -40,10 +37,8 @@ function part1(matrices: Matrix[]) {
 function part2(matrices: Matrix[]) {
     const winners: [number, number][] = [];
     matrices.forEach(m => [...m].forEach(sm => sm[2] += 10000000000000))
-    for (const mm of matrices) {
-        bareiss(mm);
-        const b = mm[1][2] / mm[1][1];
-        const a = (mm[0][2] - mm[0][1] * b) / mm[0][0];
+    for (const m of matrices) {
+        const [a, b] = m.solveLinearSystem();
         if (Number.isInteger(a) && Number.isInteger(b)) {
             winners.push([a, b]);
         }
