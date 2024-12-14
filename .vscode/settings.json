@@ -7,9 +7,12 @@
     "javascript.preferences.quoteStyle": "single",
     "github.copilot.editor.enableAutoCompletions": false,
     "terminal.integrated.env.osx": {
-        "NODE_OPTIONS": "--import tsx"
+        "NODE_OPTIONS": "--import tsx",
+        "NO_COLOR": "1"
     },
     "terminal.integrated.env.linux": {
-        "NODE_OPTIONS": "--import tsx"
+        "NODE_OPTIONS": "--import tsx",
+        "NO_COLOR": "1"
     },
+    "typescript.format.semicolons": "insert",
 }

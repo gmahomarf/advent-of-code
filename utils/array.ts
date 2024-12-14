@@ -9,6 +9,8 @@ declare global {
         findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
         findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
         counts<Item extends T & (number | string)>(): Map<Item, number>;
+        countsBy<Key extends string | number>(keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number>;
+        count(predicate: (value: T, index: number, obj: T[]) => boolean): number;
     }
 }
 
@@ -59,7 +61,7 @@ Array.prototype.equals = function <T>(this: T[], other: T[]) {
         }
     }
 
-    return true
+    return true;
 };
 
 Array.prototype.findIndexFrom = function <T>(start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
@@ -70,7 +72,7 @@ Array.prototype.findIndexFrom = function <T>(start: number, predicate: (value: T
     }
 
     return -1;
-}
+};
 
 Array.prototype.findLastIndexFrom = function <T>(this: T[], start: number, predicate: (value: T, index: number, obj: T[]) => unknown) {
     for (let i = start; i >= 0; i--) {
@@ -80,14 +82,30 @@ Array.prototype.findLastIndexFrom = function <T>(this: T[], start: number, predi
     }
 
     return -1;
-}
+};
 
 Array.prototype.counts = function <T>(this: T[]) {
     return this.reduce((m, e) => {
         m.set(e, (m.get(e) ?? 0) + 1);
         return m;
     }, new Map<T, number>());
-}
+};
+
+Object.defineProperty<Array<unknown>>(Array.prototype, 'count', {
+    value: function <T>(this: Array<T>, predicate: (value: T, index: number, obj: T[]) => boolean): number {
+        return this.reduce((c, e, i, t) => c + +predicate(e, i, t), 0);
+    }
+});
+
+Object.defineProperty<Array<unknown>>(Array.prototype, 'countsBy', {
+    value: function <T, Key extends string | number>(this: Array<T>, keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number> {
+        return this.reduce((m, e, i, a) => {
+            const k = keyFn(e, i, a);
+            m.set(k, (m.get(k) ?? 0) + 1);
+            return m;
+        }, new Map<Key, number>());
+    }
+});
 
 export function combinations<T>(options: T[], idFn?: IdentityFn<T>): T[][] {
     const r: T[][] = [];
