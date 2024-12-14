@@ -5,7 +5,9 @@ interface String {
     numberedLines(): Generator<[number, string], void, void>;
     line(n: number): string;
     count(char: string): number;
-    allIndicesOf(char: string): Generator<number, void>;
+    counts(): Map<string, number>;
+    allIndicesOf(char: string): Generator<number, void, void>;
+    batch(n: number): Generator<string, void, never>;
 }
 
 Object.defineProperties(String.prototype, {
@@ -100,5 +102,21 @@ Object.defineProperties(String.prototype, {
                 yield i;
             }
         }
-    }
+    },
+    batch: {
+        value: function* (this: String, n: number) {
+            let i = 0;
+            for (let i = 0; i < this.length; i += n) {
+                yield this.slice(i, i + n);
+            }
+        }
+    },
+    counts: {
+        value: function (this: String) {
+            return this[Symbol.iterator]().reduce((m, e) => {
+                m.set(e, (m.get(e) ?? 0) + 1);
+                return m;
+            }, new Map<string, number>());
+        }
+    },
 });

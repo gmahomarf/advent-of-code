@@ -17,5 +17,5 @@ export async function getExampleInput<T extends ToString>(n?: T) {
 }
 
 async function _getInput(file: string) {
-    return readFile(file, 'utf-8');
+    return (await readFile(file, 'utf-8')).trimEnd();
 }

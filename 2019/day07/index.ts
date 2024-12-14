@@ -1,5 +1,4 @@
-import { argMax } from '../../utils/argmax';
-import { getExampleInput, getInput, range } from '../../utils/index';
+import { getExampleInput, getInput, range, argMax } from '../../utils/index';
 import { intcode, IntcodeProgram } from '../intcode';
 
 async function parse() {
