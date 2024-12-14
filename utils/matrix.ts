@@ -51,25 +51,6 @@ export class Matrix {
     }
 }
 
-
-/**
- * 
- * Ignore for now
- */
-function argmax<Args extends any[]>(fn: (...args: Args) => number, ...args: Args[]): Args {
-    let maxArg = args[0];
-    let maxV = fn(...maxArg);
-    for (const arg of args.slice(1)) {
-        const v = fn(...arg);
-        if (v > maxV) {
-            maxV = v;
-            maxArg = arg;
-        }
-    }
-
-    return maxArg;
-}
-
 /**
  * Adapted from https://en.wikipedia.org/wiki/Bareiss_algorithm#The_algorithm
  */

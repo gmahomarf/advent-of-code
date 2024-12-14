@@ -43,6 +43,7 @@ function part2(equation: number[]) {
         let r: number = operands[0];
         for (let idx = 1; idx < operands.length; idx++) {
             const o = operands[idx];
+            // @ts-expect-error
             r = operators[(n + i).toString(3)[idx]](r, o);
             if (r > result) {
                 break;

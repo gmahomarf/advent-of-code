@@ -41,16 +41,16 @@ export function DFS<T extends string | number[], All extends boolean>(grid: Grid
     const stack: Point[] = [start];
 
     while (stack.length) {
-        const p = stack.pop()!;
-        if (!seen.has(p.toString())) {
-            if (opts.isGoal(grid.getAt(p))) {
+        const curr = stack.pop()!;
+        if (!seen.has(curr.toString())) {
+            if (opts.isGoal(grid.getAt(curr))) {
                 if (!opts.all) {
-                    return p;
+                    return curr;
                 }
-                goals.add(p.toString());
+                goals.add(curr.toString());
             }
-            seen.add(p.toString());
-            stack.push.apply(stack, getAdjacentNodes(grid, p, opts));
+            seen.add(curr.toString());
+            stack.push.apply(stack, getAdjacentNodes(grid, curr, opts));
         }
     }
 
@@ -69,8 +69,8 @@ export function getPathDFS<T extends string | number[], All extends boolean>(gri
     const stack: PointAndPath[] = [{ p: start, path: [] }];
     const paths: Point[][] = [];
 
-    while (stack.length) {
-        const curr = stack.pop()!;
+    let curr: PointAndPath | undefined;
+    while ((curr = stack.pop())) {
         if (!seen.has(curr.p.toString() + ':' + curr.path.toString())) {
             if (opts.isGoal(grid.getAt(curr.p))) {
                 if (!opts.all) {
@@ -81,7 +81,7 @@ export function getPathDFS<T extends string | number[], All extends boolean>(gri
             }
             seen.add(curr.toString());
             stack.push.apply(stack, getAdjacentNodes(grid, curr.p, opts)
-                .map(a => ({ p: a, path: curr.path.concat(curr.p) }))
+                .map(a => ({ p: a, path: curr!.path.concat(curr!.p) }))
             );
         }
     }
@@ -94,18 +94,18 @@ export function BFS<T extends string | number[]>(grid: Grid<T>, start: Point, op
 export function BFS<T extends string | number[], All extends boolean>(grid: Grid<T>, start: Point, opts: SearchOptions<T, All>): Set<string> | Point {
     const goals = new Set<string>();
     const stack: Point[] = [start];
-    const seen = new Set<string>(start.toString());
+    const seen = new Set<string>([start.toString()]);
 
-    while (stack.length) {
-        const p = stack.shift()!;
-        if (opts.isGoal(grid.getAt(p))) {
+    let curr: Point | undefined;
+    while ((curr = stack.shift())) {
+        if (opts.isGoal(grid.getAt(curr))) {
             if (!opts.all) {
-                return p;
+                return curr;
             }
-            goals.add(p.toString());
+            goals.add(curr.toString());
         }
 
-        for (const aNode of getAdjacentNodes(grid, p, opts)) {
+        for (const aNode of getAdjacentNodes(grid, curr, opts)) {
             if (!seen.has(aNode.toString())) {
                 seen.add(aNode.toString());
                 stack.push(aNode);
