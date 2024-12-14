@@ -1,5 +1,4 @@
-import { lcm } from '../../utils/math.mjs';
-import { getInput } from '../../utils/index';
+import { getInput, lcm } from '../../utils/index';
 
 const input = await getInput();
 

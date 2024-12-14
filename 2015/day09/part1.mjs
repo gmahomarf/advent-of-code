@@ -1,4 +1,4 @@
-import { combinations, getInput } from '../../utils/index';
+import { getInput } from '../../utils/index';
 
 const input = await getInput();
 
@@ -20,7 +20,7 @@ for (const line of input.lines()) {
 }
 
 let shortest = Infinity;
-const routes = combinations(Object.keys(distances));
+const routes = Object.keys(distances).permutations();
 
 for (const route of routes) {
     let distance = 0;

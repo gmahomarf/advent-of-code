@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, combinations } from '../../utils/index';
+import { getExampleInput, getInput } from '../../utils/index';
 
 async function main() {
     const input = await getInput();
@@ -21,7 +21,7 @@ async function main() {
         happiness.me[person] = 0;
     }
     people.push('me');
-    for (const option of combinations(people)) {
+    for (const option of people.permutations()) {
         let total = 0;
         for (const [i, person] of option.entries()) {
             const neighbor = option[(i + 1) % people.length];

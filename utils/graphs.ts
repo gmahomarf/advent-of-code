@@ -1,5 +1,5 @@
 import { Point } from "./point";
-import { Grid } from "./util";
+import { Grid } from './grid';
 
 type AdjacentNodeCheck<T extends string | number[]> = (nodeValue: T[number], possiblyAdjacentNodeValue: T[number]) => boolean;
 
@@ -7,11 +7,11 @@ type SearchOptions<T extends string | number[], All extends boolean = false> = {
     all?: All,
     includeDiagonals: boolean,
     isAdjacent?: AdjacentNodeCheck<T>;
-    isGoal: (value: T[number]) => boolean
-}
+    isGoal: (value: T[number]) => boolean;
+};
 
 
-function getAdjacentNodes<T extends string | number[]>(grid: Grid<T>, point: Point, { includeDiagonals, isAdjacent = () => true }: { includeDiagonals: boolean, isAdjacent?: AdjacentNodeCheck<T> }): Point[] {
+function getAdjacentNodes<T extends string | number[]>(grid: Grid<T>, point: Point, { includeDiagonals, isAdjacent = () => true }: { includeDiagonals: boolean, isAdjacent?: AdjacentNodeCheck<T>; }): Point[] {
     const nodes: Point[] = [];
 
     (includeDiagonals ? [
@@ -26,7 +26,7 @@ function getAdjacentNodes<T extends string | number[]>(grid: Grid<T>, point: Poi
     ]).forEach(([x, y]) => {
         const aNode = point.plus(x, y);
         if (grid.hasPoint(aNode) && isAdjacent(grid.getAt(point), grid.getAt(aNode))) {
-            nodes.push(aNode)
+            nodes.push(aNode);
         }
     });
 
@@ -47,7 +47,7 @@ export function DFS<T extends string | number[], All extends boolean>(grid: Grid
                 if (!opts.all) {
                     return p;
                 }
-                goals.add(p.toString())
+                goals.add(p.toString());
             }
             seen.add(p.toString());
             stack.push.apply(stack, getAdjacentNodes(grid, p, opts));
@@ -60,7 +60,7 @@ export function DFS<T extends string | number[], All extends boolean>(grid: Grid
 type PointAndPath = {
     p: Point,
     path: Point[],
-}
+};
 export function getPathDFS<T extends string | number[]>(grid: Grid<T>, start: Point, opts: SearchOptions<T>): Point[];
 export function getPathDFS<T extends string | number[]>(grid: Grid<T>, start: Point, opts: SearchOptions<T, true>): Point[][];
 export function getPathDFS<T extends string | number[], All extends boolean>(grid: Grid<T>, start: Point, opts: SearchOptions<T, All>): Point[][] | Point[] {
@@ -76,8 +76,8 @@ export function getPathDFS<T extends string | number[], All extends boolean>(gri
                 if (!opts.all) {
                     return curr.path.concat(curr.p);
                 }
-                goals.add(curr.toString())
-                paths.push(curr.path.concat(curr.p))
+                goals.add(curr.toString());
+                paths.push(curr.path.concat(curr.p));
             }
             seen.add(curr.toString());
             stack.push.apply(stack, getAdjacentNodes(grid, curr.p, opts)

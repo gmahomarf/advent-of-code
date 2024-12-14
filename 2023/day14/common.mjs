@@ -1,4 +1,4 @@
-import '../../utils/string.mjs';
+import '../../utils/string-extensions';
 
 export function tilt(grid, direction) {
     switch (direction) {

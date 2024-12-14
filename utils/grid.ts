@@ -26,7 +26,7 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
     *gridEntries(): Generator<[Point, T[number]], void, void> {
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                yield [new Point(x, y), this[y][x]]
+                yield [new Point(x, y), this[y][x]];
             }
         }
     }
@@ -53,6 +53,6 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
     }
 
     hasPoint(p: Point) {
-        return p.x >= 0 && p.x < this.width && p.y >= 0 && p.y < this.height
+        return p.x >= 0 && p.x < this.width && p.y >= 0 && p.y < this.height;
     }
 }

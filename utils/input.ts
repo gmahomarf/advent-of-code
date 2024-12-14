@@ -1,13 +1,19 @@
+import './array-extensions';
+import './string-extensions';
+
 import { readFile } from "fs/promises";
-import './array';
-import './string';
 
 export async function getInput() {
     return _getInput('input.txt');
 }
 
-export async function getExampleInput(n = '') {
-    return _getInput(`input-ex${n}.txt`);
+interface ToString {
+    toString(): string;
+}
+
+export async function getExampleInput<T extends ToString>(n?: T) {
+    const s = n ?? '';
+    return _getInput(`input-ex${s}.txt`);
 }
 
 async function _getInput(file: string) {

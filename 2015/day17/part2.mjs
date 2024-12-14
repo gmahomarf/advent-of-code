@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, combinations } from '../../utils/index';
+import { getExampleInput, getInput } from '../../utils/index';
 
 const LITERS = 150;
 // const LITERS = 25;
