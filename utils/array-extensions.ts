@@ -10,6 +10,7 @@ interface Array<T> {
     counts<Item extends T & (number | string)>(): Map<Item, number>;
     countsBy<Key extends string | number>(keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number>;
     count(predicate: (value: T, index: number, obj: T[]) => boolean): number;
+    permutations(idFn?: IdentityFn<T>): T[][];
 }
 
 type Identity = number | string;
