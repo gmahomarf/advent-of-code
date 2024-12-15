@@ -59,12 +59,13 @@ Object.defineProperties(String.prototype, {
         }
     },
     count: {
-        value: function (this: String, char: string) {
-            if (char.length !== 1) return 0;
+        value: function (this: String, search: string) {
             let count = 0;
-            let idx = -1;
+            let idx = -search.length;
 
-            while ((idx = this.indexOf(char, idx + 1)) !== -1) count++;
+            while ((idx = this.indexOf(search, idx + search.length)) !== -1) {
+                count++;
+            }
 
             return count;
         }
@@ -96,9 +97,9 @@ Object.defineProperties(String.prototype, {
         }
     },
     allIndicesOf: {
-        value: function* (this: String, char: string) {
-            let i = -1;
-            while ((i = this.indexOf(char, i + 1)) !== -1) {
+        value: function* (this: String, search: string) {
+            let i = -search.length;
+            while ((i = this.indexOf(search, i + search.length)) !== -1) {
                 yield i;
             }
         }
