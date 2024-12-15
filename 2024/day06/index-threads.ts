@@ -22,7 +22,7 @@ async function parse() {
     };
 }
 
-const directionOrder = ['D', 'R', 'U', 'L'] as const;
+const directionOrder = ['U', 'R', 'D', 'L'] as const;
 
 function getAllVisited(grid: Grid<string>, start: Point): Set<string> {
     const pos = start.clone();

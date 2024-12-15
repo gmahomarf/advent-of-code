@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, add, Point, Grid, DIRECTIONS, BFS } from '../../utils/index';
+import { getExampleInput, getInput, add, Point, Grid, DIRECTIONS_LIST, BFS } from '../../utils/index';
 
 
 async function parse() {
@@ -17,7 +17,7 @@ async function parse() {
                 isGoal: g => g === v,
                 isAdjacent: (n, a) => n === a,
                 includeDiagonals: false,
-            })
+            });
             plots.push(t);
         }
     }
@@ -30,7 +30,7 @@ async function parse() {
 function perimeter(grid: Grid<string>, point: Point) {
     const v = grid.getAt(point);
     let p = 0;
-    for (const direction of DIRECTIONS) {
+    for (const direction of DIRECTIONS_LIST) {
         if (v !== grid.getAt(point.plus(direction))) {
             p++;
         }
@@ -49,8 +49,8 @@ function sides(plot: Set<string>) {
         cols.set(point.x, (cols.get(point.x) ?? []).concat(point));
     }
 
-    rows.values().forEach(r => r.sort((a, b) => a.x - b.x))
-    cols.values().forEach(c => c.sort((a, b) => a.y - b.y))
+    rows.values().forEach(r => r.sort((a, b) => a.x - b.x));
+    cols.values().forEach(c => c.sort((a, b) => a.y - b.y));
 
     let sideCount = 0;
     for (const [y, row] of rows.entries()) {
@@ -61,7 +61,7 @@ function sides(plot: Set<string>) {
         let px = null;
         for (const pt of top) {
             if (px === null || px !== pt.x - 1) {
-                sideCount++
+                sideCount++;
             }
             px = pt.x;
         }
@@ -69,7 +69,7 @@ function sides(plot: Set<string>) {
         px = null;
         for (const pb of bottom) {
             if (px === null || px !== pb.x - 1) {
-                sideCount++
+                sideCount++;
             }
             px = pb.x;
         }
@@ -83,7 +83,7 @@ function sides(plot: Set<string>) {
         let py = null;
         for (const pl of left) {
             if (py === null || py !== pl.y - 1) {
-                sideCount++
+                sideCount++;
             }
             py = pl.y;
         }
@@ -91,7 +91,7 @@ function sides(plot: Set<string>) {
         py = null;
         for (const pr of right) {
             if (py === null || py !== pr.y - 1) {
-                sideCount++
+                sideCount++;
             }
             py = pr.y;
         }

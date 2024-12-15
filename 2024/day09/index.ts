@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, Grid, Point } from '../../utils/index';
+import { getExampleInput, getInput } from '../../utils/index';
 
 const input = await getInput();
 
@@ -60,7 +60,7 @@ function part2(fs: FS, empties: Empty[]) {
             }
             if (empty[1] >= f.length) {
                 fs.splice(empty[0], f.length, ...f);
-                fs.splice(r, f.length, ...new Array(f.length).fill('.'))
+                fs.splice(r, f.length, ...new Array(f.length).fill('.'));
                 if (empty[1] === f.length) {
                     empties.splice(i, 1);
                 } else {
@@ -81,7 +81,7 @@ function part2(fs: FS, empties: Empty[]) {
 
     let s = 0;
     for (let i = 0; i < fs.length; i++) {
-        if (fs[i] === '.') continue
+        if (fs[i] === '.') continue;
         s += i * +fs[i];
     }
     // console.log(fs.join(''));

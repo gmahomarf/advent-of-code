@@ -35,7 +35,7 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
         return this.map(row => Array.isArray(row) ? row.join('') : row).join('\n');
     }
 
-    getAt(point: Point) {
+    getAt(point: Point): T[number] {
         return this[point.y]?.[point.x];
     }
 

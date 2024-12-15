@@ -5,6 +5,7 @@ interface Array<T> {
     upsert(item: T, eqFn?: (e: T, o: T) => boolean): void;
     sortInt(): this;
     equals(other: T[]): boolean;
+    allIndicesOf(item: T): Generator<number, void, void>;
     findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
     findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
     counts<Item extends T & (number | string)>(): Map<Item, number>;
@@ -68,6 +69,14 @@ Object.defineProperties(Array.prototype, {
             }
 
             return true;
+        }
+    },
+    allIndicesOf: {
+        value: function* <T>(this: T[], item: T) {
+            let i = -1;
+            while ((i = this.indexOf(item, i + 1)) !== -1) {
+                yield i;
+            }
         }
     },
     findIndexFrom: {
