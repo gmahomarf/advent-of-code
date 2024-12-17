@@ -7,7 +7,7 @@ interface String {
     count(char: string): number;
     counts(): Map<string, number>;
     allIndicesOf(char: string): Generator<number, void, void>;
-    batch(n: number): Generator<string, void, never>;
+    batch(n: number): Generator<string, void, void>;
 }
 
 Object.defineProperties(String.prototype, {

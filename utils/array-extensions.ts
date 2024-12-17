@@ -12,6 +12,7 @@ interface Array<T> {
     countsBy<Key extends string | number>(keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number>;
     count(predicate: (value: T, index: number, obj: T[]) => boolean): number;
     permutations(idFn?: IdentityFn<T>): T[][];
+    batch(n: number): Generator<T[], void, void>;
 }
 
 type Identity = number | string;
@@ -53,7 +54,7 @@ Object.defineProperties(Array.prototype, {
     },
     sortInt: {
         value: function <T extends number>(this: T[]) {
-            return this.sort((a, b) => a - b);
+            return this.sort((a, b) => Number(a) - Number(b));
         }
     },
     equals: {
@@ -129,7 +130,14 @@ Object.defineProperties(Array.prototype, {
             _permutations(this, r, new Map<Identity, T>(), idFn!);
             return r;
         }
-    }
+    },
+    batch: {
+        value: function* <T>(this: T[], n: number) {
+            for (let i = 0; i < this.length; i += n) {
+                yield this.slice(i, i + n);
+            }
+        }
+    },
 });
 
 function _permutations<T extends Identity>(opts: T[], results: T[][], seen: Map<T, T>): void;

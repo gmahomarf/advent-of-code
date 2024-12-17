@@ -71,6 +71,22 @@ export class Point {
         return this.L(n);
     }
 
+    [Direction.Up](n = 1) {
+        return this.U(n);
+    }
+
+    [Direction.Right](n = 1) {
+        return this.R(n);
+    }
+
+    [Direction.Down](n = 1) {
+        return this.D(n);
+    }
+
+    [Direction.Left](n = 1) {
+        return this.L(n);
+    }
+
     manhattanDistance(other: Point) {
         return Math.abs(other.x - this.x) + Math.abs(other.y - this.y);
     }
@@ -101,7 +117,7 @@ export enum Direction {
     Up = 'Up',
     Right = 'Right',
     Down = 'Down',
-    Left = 'Left'
+    Left = 'Left',
 }
 
 export enum DirectionArrow {

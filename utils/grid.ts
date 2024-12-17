@@ -46,6 +46,8 @@ export class Grid<T extends string | string[] | number[]> extends Array<T> imple
         } else {
             this[point.y] = row.slice(0, point.x) + value + row.slice(point.x + 1) as T;
         }
+
+        return this;
     }
 
     clone(): Grid<T> {
