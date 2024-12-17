@@ -11,21 +11,21 @@ async function parse() {
     };
 }
 
-function _combo(registers: bigint[], operand: number) {
-    if (4 <= operand && operand <= 6) {
-        return registers[operand - 4];
+function _combo(registers: bigint[], operand: bigint) {
+    if (4n <= operand && operand <= 6n) {
+        return registers[Number(operand) - 4];
     }
 
-    return BigInt(operand);
+    return operand;
 }
 
-function yacomputer(registers: bigint[], program: bigint[], part2 = false) {
+function yacomputer(registers: bigint[], program: bigint[]) {
     const combo = _combo.bind(null, registers);
     const output: bigint[] = [];
 
     for (let ip = 0; ip < program.length;) {
         const opcode = program[ip];
-        const operand = Number(program[ip + 1]);
+        const operand = program[ip + 1];
 
         switch (opcode) {
             case 0n:
@@ -42,7 +42,7 @@ function yacomputer(registers: bigint[], program: bigint[], part2 = false) {
                 break;
             case 3n:
                 if (registers[0]) {
-                    ip = operand;
+                    ip = Number(operand);
                 } else {
                     ip += 2;
                 }
@@ -52,11 +52,7 @@ function yacomputer(registers: bigint[], program: bigint[], part2 = false) {
                 ip += 2;
                 break;
             case 5n:
-                const o = combo(operand) & 7n;
-                if (part2 && BigInt(program[output.length]) !== o) {
-                    return [];
-                }
-                output.push(o);
+                output.push((combo(operand) & 7n));
                 ip += 2;
                 break;
             case 6n:
@@ -87,7 +83,7 @@ async function part2(registers: bigint[], program: bigint[]) {
         let newopts = opts.flatMap(opt => {
             const o: bigint[] = [];
             for (let e = 0n; e < 8n ** width - 1n; e++) {
-                const input = opt + e * (1n << (pos * 3n));
+                const input = opt + e * 1n << (pos * 3n);
                 const idx = Number(pos);
                 const idxe = Number(pos + width);
 
