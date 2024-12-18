@@ -1,4 +1,4 @@
-import { getExampleInput, getInput, range, argMax } from '../../utils/index';
+import { getExampleInput, getInput, range, argMax, argWrap } from '../../utils/index';
 import { intcode, IntcodeProgram } from '../intcode';
 
 async function parse() {
@@ -61,14 +61,14 @@ function run2(program: IntcodeProgram, init: number, phases: number[]) {
 }
 
 function part1(program: IntcodeProgram) {
-    const perms = range(0, 4).permutations().map(x => [x]);
-    const [max, maxArg] = argMax((...[phases]: number[][]) => run(program, 0, phases), perms);
+    const perms = range(0, 4).permutations();
+    const [max, maxArg] = argMax((phases: number[]) => run(program, 0, phases), argWrap(perms));
     console.log(max, maxArg);
 }
 
 function part2(program: IntcodeProgram) {
-    const perms = range(5, 9).permutations().map(x => [x]);
-    const [max, maxArg] = argMax((...[phases]: number[][]) => run2(program, 0, phases), perms);
+    const perms = range(5, 9).permutations();
+    const [max, maxArg] = argMax((phases: number[]) => run2(program, 0, phases), argWrap(perms));
     console.log(max, maxArg);
 }
 
