@@ -3,10 +3,8 @@ export function argMax<Args extends any[]>(fn: (...args: Args) => number, args: 
     let maxV = -Infinity;
     for (const arg of args) {
         const v = fn(...arg);
-        if (v > maxV) {
-            maxV = v;
-            maxArg = arg;
-        }
+        maxV = Math.max(maxV, v);
+        maxArg = v === maxV ? arg : maxArg;
     }
 
     return [maxV, maxArg];
@@ -17,14 +15,13 @@ export function argMin<Args extends any[]>(fn: (...args: Args) => number, args: 
     let minV = Infinity;
     for (const arg of args) {
         const v = fn(...arg);
-        if (!minArg) {
-            minArg = arg;
-            minV = v;
-        } else if (v < minV) {
-            minV = v;
-            minArg = arg;
-        }
+        minV = Math.min(minV, v);
+        minArg = v === minV ? arg : minArg;
     }
 
     return [minV, minArg];
+}
+
+export function argWrap<T>(args: Iterable<T>): Iterable<[T]> {
+    return Iterator.from(args).map(e => [e]);
 }

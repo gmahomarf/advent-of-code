@@ -1,4 +1,4 @@
-import { DirectionArrow, getExampleInput, getInput, Grid, Point, argMin, AdjacentNodeCheck } from '../../utils/index';
+import { getExampleInput, getInput, Grid, Point, argMin, AdjacentNodeCheck, argWrap } from '../../utils/index';
 
 const WALL = '#';
 
@@ -55,17 +55,16 @@ export function Dijkstra<T extends string>(grid: Grid<T>, start: Point, end: Poi
     queue.add('H' + end.toString()).add('V' + end.toString());
 
     while (queue.size) {
-        let [_, [u]] = argMin(k => dist.get(k)!, queue.values().map<[string]>(q => [q]));
+        let [_, [u]] = argMin((k: string) => dist.get(k)!, argWrap(queue));
         queue.delete(u);
 
-        const [du, ...psu] = u;
-        for (const v of getAdjacentNodesWithDir(grid, Point.from(u.slice(1)), du, {
+        const [du] = u;
+        for (const [v, score] of getAdjacentNodesWithScore(grid, Point.from(u.slice(1)), du, {
             includeDiagonals: false,
             isAdjacent: (_, n) => n !== WALL
         })) {
             if (queue.has(v)) {
-                const [dv, ...psv] = u;
-                const alt = dist.get(u)! + (u[0] === v[0] ? 1 : 1001);
+                const alt = dist.get(u)! + score;
                 if (alt < dist.get(v)!) {
                     dist.set(v, alt);
                 }
@@ -76,37 +75,21 @@ export function Dijkstra<T extends string>(grid: Grid<T>, start: Point, end: Poi
     return dist;
 }
 
-function getAdjacentNodesWithDir<T extends string>(grid: Grid<T>, point: Point, dir: string, { includeDiagonals, isAdjacent = () => true }: { includeDiagonals: boolean, isAdjacent?: AdjacentNodeCheck<T>; }): string[] {
-    const nodes: string[] = [];
+function getAdjacentNodesWithScore<T extends string>(grid: Grid<T>, point: Point, dir: string, { isAdjacent = () => true }: { includeDiagonals: boolean, isAdjacent?: AdjacentNodeCheck<T>; }): [string, number][] {
+    const nodes: [string, number][] = [];
 
-    (includeDiagonals ? [
-        [-1, -1], [0, -1], [1, -1],
-        [-1, 0], /* 0,0 */[1, 0],
-        [-1, 1], [0, 1], [1, 1]
-
-    ] : [
-        /* -1, -1 */[0, -1], /* 1, -1 */
-        [-1, 0],  /* 0,0 */[1, 0],
-        /* -1, 1 */[0, 1], /* 1, 1 */
-    ]).forEach(([x, y]) => {
+    (dir === 'V' ?
+        [[0, -1], [0, 1]] :
+        [[-1, 0], [1, 0]]
+    ).forEach(([x, y]) => {
         const aNode = point.plus(x, y);
-        if (grid.hasPoint(aNode) && isAdjacent(grid.getAt(point), grid.getAt(aNode))) {
-            if (dir === 'H') {
-                if (point.y === aNode.y) {
-                    nodes.push(dir + aNode);
-                } else {
-                    nodes.push('V' + aNode);
-                }
-            } else {
-                if (point.x === aNode.x) {
-                    nodes.push(dir + aNode);
-                } else {
-                    nodes.push('H' + aNode);
-                }
-
-            }
+        if (grid.hasPoint(aNode) && isAdjacent(grid.getAt(point), grid.getAt(aNode), point, aNode)) {
+            nodes.push([dir + aNode, 1]);
         }
     });
+
+    let d = dir === 'V' ? 'H' : 'V';
+    nodes.push([d + point, 1000]);
 
     return nodes;
 }
@@ -116,8 +99,33 @@ function part1(maze: Grid<string>, start: Point, end: Point) {
     const distances = Dijkstra(maze, start, end);
 
     console.log(distances.get('V' + end), distances.get('H' + end));
+
+    return distances;
+}
+
+function part2(maze: Grid<string>, start: Point, end: Point, distances: Map<string, number>) {
+    const seats = new Set<string>();
+    let stack: [string, number][] = [['V' + end, 0]];
+    while (stack.length) {
+        const [curr, score] = stack.shift()!;
+        const currD = distances.getOrDefault(curr, Infinity);
+        let d = curr[0];
+        let t = Point.from(curr.slice(1));
+        const adjNodes = getAdjacentNodesWithScore(maze, t, d, {
+            includeDiagonals: false,
+            isAdjacent: (_, v, _p, p) => v !== WALL
+        });
+
+        adjNodes.filter(an => distances.getOrDefault(an[0], Infinity) === currD - an[1]).forEach(nn => {
+            stack.push([nn[0], nn[1] + score]);
+            seats.add(nn[0].slice(1));
+        });
+    }
+
+    console.log(seats.size + 1);
 }
 
 const { maze, start, end } = await parse();
-part1(maze, start, end);
-// part2(maze, start, end);
+
+const distances = part1(maze, start, end);
+part2(maze, start, end, distances);
