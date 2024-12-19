@@ -9,12 +9,15 @@
             "request": "launch",
             "name": "Launch Program",
             "skipFiles": [
-                "<node_internals>/**"
+                "<node_internals>/**",
+                "${workspaceFolder}/node_modules/**"
             ],
             "program": "${file}",
             "cwd": "${fileDirname}",
             "env": {
-                "DEBUG": "1"
+                "DEBUG": "1",
+                "NODE_OPTIONS": "--import tsx",
+                "NO_COLOR": "1"
             },
             "console": "integratedTerminal",
             "args": []
