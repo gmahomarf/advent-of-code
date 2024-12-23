@@ -1,18 +1,22 @@
-interface Array<T> {
-    repeat(n: number): T[];
-    getMany(...indices: number[]): T[];
-    removeBy(predicate: (o: T) => boolean): void;
-    upsert(item: T, eqFn?: (e: T, o: T) => boolean): void;
-    sortInt(): this;
-    equals(other: T[]): boolean;
-    allIndicesOf(item: T): Generator<number, void, void>;
-    findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
-    findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
-    counts<Item extends T & (number | string)>(): Map<Item, number>;
-    countsBy<Key extends string | number>(keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number>;
-    count(predicate: (value: T, index: number, obj: T[]) => boolean): number;
-    permutations(idFn?: IdentityFn<T>): T[][];
-    batch(n: number): Generator<T[], void, void>;
+import { permutations } from "./itertools";
+
+declare global {
+    interface Array<T> {
+        repeat(n: number): T[];
+        getMany(...indices: number[]): T[];
+        removeBy(predicate: (o: T) => boolean): void;
+        upsert(item: T, eqFn?: (e: T, o: T) => boolean): void;
+        sortInt(): this;
+        equals(other: T[]): boolean;
+        allIndicesOf(item: T): Generator<number, void, void>;
+        findIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
+        findLastIndexFrom(i: number, predicate: (value: T, index: number, obj: T[]) => unknown): number;
+        counts<Item extends T & (number | string)>(): Map<Item, number>;
+        countsBy<Key extends string | number>(keyFn: (value: T, index: number, obj: T[]) => Key): Map<Key, number>;
+        count(predicate: (value: T, index: number, obj: T[]) => boolean): number;
+        permutations(idFn?: IdentityFn<T>): Generator<T[], void, void>;
+        batch(n: number): Generator<T[], void, void>;
+    }
 }
 
 type Identity = number | string;
@@ -125,10 +129,8 @@ Object.defineProperties(Array.prototype, {
         }
     },
     permutations: {
-        value: function <T>(this: T[], idFn?: IdentityFn<T>): T[][] {
-            const r: T[][] = [];
-            _permutations(this, r, new Map<Identity, T>(), idFn!);
-            return r;
+        value: function <T>(this: T[], length?: number): Generator<T[], void, void> {
+            return permutations(this, length ?? this.length);
         }
     },
     batch: {
@@ -139,19 +141,3 @@ Object.defineProperties(Array.prototype, {
         }
     },
 });
-
-function _permutations<T extends Identity>(opts: T[], results: T[][], seen: Map<T, T>): void;
-function _permutations<T, I extends Identity>(opts: T[], results: T[][], seen: Map<I, T>, idFn: IdentityFn<T>): void;
-function _permutations<T>(opts: T[], results: T[][], seen: Map<Identity, T>, idFn?: IdentityFn<T>) {
-    if (seen.size === opts.length) {
-        results.push(Array.from(seen.values()));
-    }
-
-    for (const option of opts) {
-        const id = idFn ? idFn(option) : option as Identity;
-        if (seen.has(id)) continue;
-        _permutations(opts, results, seen.set(id, option), idFn!);
-        seen.delete(id);
-    }
-}
-

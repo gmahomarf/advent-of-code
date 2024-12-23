@@ -49,6 +49,12 @@ export function mul(a: any, b: any) {
     return a * b;
 }
 
-export function range(a: number, b: number) {
-    return Array.from({ length: b - a + 1 }).map((_, i) => i + a);
+export function* range(a: number, b: number) {
+    const step = Math.sign(b - a);
+    let c = a;
+    const len = Math.abs(b - a) + 1;
+    for (let i = 0; i < len; i++) {
+        yield c;
+        c += step;
+    }
 }

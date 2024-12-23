@@ -10,7 +10,7 @@ export function argMax<Args extends any[]>(fn: (...args: Args) => number, args: 
     return [maxV, maxArg];
 }
 
-export function argMin<Args extends any[]>(fn: (...args: Args) => number, args: Iterable<Args>): [maxValue: number, maxArgs: Args] {
+export function argMin<Args extends any[]>(fn: (...args: Args) => number, args: Iterable<Args>): [minValue: number, minArgs: Args] {
     let minArg: Args = null as unknown as Args;
     let minV = Infinity;
     for (const arg of args) {

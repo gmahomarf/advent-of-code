@@ -15,4 +15,5 @@
         "NO_COLOR": "1"
     },
     "typescript.format.semicolons": "insert",
+    "indentRainbow.errorColor": "",
 }

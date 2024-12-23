@@ -111,6 +111,15 @@ export class Point {
         }
         return new Point(this.x + pointOrX.x, this.y + pointOrX.y);
     }
+
+    minus(p: Point): Point;
+    minus(x: number, y: number): Point;
+    minus(pointOrX: Point | number, y?: number) {
+        if (typeof pointOrX === 'number') {
+            return new Point(this.x - pointOrX, this.y - y!);
+        }
+        return new Point(this.x - pointOrX.x, this.y - pointOrX.y);
+    }
 }
 
 export enum Direction {
