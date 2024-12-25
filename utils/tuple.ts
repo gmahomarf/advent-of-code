@@ -1,7 +1,15 @@
-export class TupleSet<K extends any[]> implements Set<K> {
-    #map = new Map<string, K>();
+export class TupleSet<T extends any[]> implements Set<T> {
+    #map;
 
-    [Symbol.iterator](): SetIterator<K> {
+    constructor(iterable?: Iterable<T> | null) {
+        if (iterable) {
+            this.#map = new Map<string, T>(Iterator.from(iterable).map(v => [v.toString(), v]));
+        } else {
+            this.#map = new Map<string, T>();
+        }
+
+    }
+    [Symbol.iterator](): SetIterator<T> {
         return this.#map.values();
     }
 
@@ -14,35 +22,35 @@ export class TupleSet<K extends any[]> implements Set<K> {
     clear(): void {
         this.#map.clear();
     }
-    forEach(callbackfn: (value: K, value2: K, set: Set<K>) => void, thisArg?: any): void {
+    forEach(callbackfn: (value: T, value2: T, set: Set<T>) => void, thisArg?: any): void {
         return this.#map.forEach(value => callbackfn(value, value, this));
     }
 
-    entries(): SetIterator<[K, K]> {
+    entries(): SetIterator<[T, T]> {
         return this.#map.values().map(v => [v, v]);
     }
 
-    keys(): SetIterator<K> {
+    keys(): SetIterator<T> {
         return this.#map.values();
     }
 
-    values(): SetIterator<K> {
+    values(): SetIterator<T> {
         return this.#map.values();
     }
 
-    union<U>(other: ReadonlySetLike<U>): Set<K | U> {
+    union<U>(other: ReadonlySetLike<U>): Set<T | U> {
         throw new Error("Method not implemented.");
     }
 
-    intersection<U>(other: ReadonlySetLike<U>): Set<K & U> {
+    intersection<U>(other: ReadonlySetLike<U>): Set<T & U> {
         throw new Error("Method not implemented.");
     }
 
-    difference<U>(other: ReadonlySetLike<U>): Set<K> {
+    difference<U>(other: ReadonlySetLike<U>): Set<T> {
         throw new Error("Method not implemented.");
     }
 
-    symmetricDifference<U>(other: ReadonlySetLike<U>): Set<K | U> {
+    symmetricDifference<U>(other: ReadonlySetLike<U>): Set<T | U> {
         throw new Error("Method not implemented.");
     }
 
@@ -58,7 +66,7 @@ export class TupleSet<K extends any[]> implements Set<K> {
         throw new Error("Method not implemented.");
     }
 
-    add(value: K) {
+    add(value: T) {
         const s = value.toString();
         if (!this.#map.has(s)) {
             this.#map.set(s, value);
@@ -66,11 +74,11 @@ export class TupleSet<K extends any[]> implements Set<K> {
         return this;
     }
 
-    has(value: K) {
+    has(value: T) {
         return this.#map.has(value.toString());
     }
 
-    delete(value: K): boolean {
+    delete(value: T): boolean {
         const s = value.toString();
         return this.#map.delete(s);
     }
