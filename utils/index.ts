@@ -13,6 +13,7 @@ export * from './lines';
 export * from './math';
 export * from './matrix';
 export * from './point';
+export * from './terminal';
 export * from './tuple';
 export * from './worker-pool';
 
