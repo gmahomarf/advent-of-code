@@ -13,7 +13,9 @@
     "memoize": "^10.0.0"
   },
   "devDependencies": {
+    "@types/blessed": "^0.1.25",
     "@types/node": "^22.10.1",
+    "blessed": "^0.1.81",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

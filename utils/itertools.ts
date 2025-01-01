@@ -66,3 +66,120 @@ export function* permutations<T>(iterable: Iterable<T>, length?: number): Genera
         }
     }
 }
+/*
+ *def set_partitions(iterable, k=None, min_size=None, max_size=None):
+    """
+    Yield the set partitions of *iterable* into *k* parts. Set partitions are
+    not order-preserving.
+
+    >>> iterable = 'abc'
+    >>> for part in set_partitions(iterable, 2):
+    ...     print([''.join(p) for p in part])
+    ['a', 'bc']
+    ['ab', 'c']
+    ['b', 'ac']
+
+
+    If *k* is not given, every set partition is generated.
+
+    >>> iterable = 'abc'
+    >>> for part in set_partitions(iterable):
+    ...     print([''.join(p) for p in part])
+    ['abc']
+    ['a', 'bc']
+    ['ab', 'c']
+    ['b', 'ac']
+    ['a', 'b', 'c']
+
+    if *min_size* and/or *max_size* are given, the minimum and/or maximum size
+    per block in partition is set.
+
+    >>> iterable = 'abc'
+    >>> for part in set_partitions(iterable, min_size=2):
+    ...     print([''.join(p) for p in part])
+    ['abc']
+    >>> for part in set_partitions(iterable, max_size=2):
+    ...     print([''.join(p) for p in part])
+    ['a', 'bc']
+    ['ab', 'c']
+    ['b', 'ac']
+    ['a', 'b', 'c']
+
+    """
+    L = list(iterable)
+    n = len(L)
+    if k is not None:
+        if k < 1:
+            raise ValueError(
+                "Can't partition in a negative or zero number of groups"
+            )
+        elif k > n:
+            return
+
+    min_size = min_size if min_size is not None else 0
+    max_size = max_size if max_size is not None else n
+    if min_size > max_size:
+        return
+
+    def set_partitions_helper(L, k):
+        n = len(L)
+        if k == 1:
+            yield [L]
+        elif n == k:
+            yield [[s] for s in L]
+        else:
+            e, *M = L
+            for p in set_partitions_helper(M, k - 1):
+                yield [[e], *p]
+            for p in set_partitions_helper(M, k):
+                for i in range(len(p)):
+                    yield p[:i] + [[e] + p[i]] + p[i + 1 :]
+
+    if k is None:
+        for k in range(1, n + 1):
+            yield from filter(
+                lambda z: all(min_size <= len(bk) <= max_size for bk in z),
+                set_partitions_helper(L, k),
+            )
+    else:
+        yield from filter(
+            lambda z: all(min_size <= len(bk) <= max_size for bk in z),
+            set_partitions_helper(L, k),
+        )
+ * 
+ */
+export function* setPartitions<T>(iterable: Iterable<T>, k: number, minSize: number, maxSize: number) {
+    const L = Array.from(iterable);
+    const n = L.length;
+
+    if (k < 1) {
+        throw new Error("Can't partition in a negative or zero number of groups");
+    }
+    if (k > n) {
+        return;
+    }
+    if (minSize > maxSize) {
+        return;
+    }
+
+    const setPartitionsHelper = function* (L: T[], k: number): Generator<T[][], void, void> {
+        const n = L.length;
+        if (k === 1) {
+            yield [L];
+        } else if (n === k) {
+            yield L.map(s => [s]);
+        } else {
+            const [e, ...M] = L;
+            for (const p of setPartitionsHelper(M, k - 1)) {
+                yield [[e], ...p];
+            }
+            for (const p of setPartitionsHelper(M, k)) {
+                for (const i of range(p.length)) {
+                    yield p.slice(0, i).concat([[e, ...p[i]]], p.slice(i + 1));
+                }
+            }
+        }
+    };
+
+    yield* Iterator.from(setPartitionsHelper(L, k)).filter(z => z.every(bk => minSize <= bk.length && bk.length <= maxSize));
+}

@@ -1,9 +1,10 @@
 import './array-extensions';
 import './map-extensions';
 import './number-extensions';
+import './set-extensions';
 import './string-extensions';
 
-export * from './argmax';
+export * from './arg-max-min';
 export * from './graphs';
 export * from './grid';
 export * from './input';

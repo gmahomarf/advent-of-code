@@ -1,5 +1,5 @@
 import { getExampleInput, getInput } from '../../utils/index';
-import { intcode, IntcodeProgram } from '../intcode';
+import { IntcodeComputer, IntcodeProgram } from '../intcode';
 
 async function parse() {
     const input = await getInput();
@@ -10,17 +10,14 @@ async function parse() {
 }
 
 function run(program: IntcodeProgram, ...input: number[]) {
-    const a = intcode(program);
-    let g = a.next();
+    const computer = new IntcodeComputer(program).start(...input);
+    let r;
     let o;
-    while (1) {
-        let i = input.shift();
-        g = i ? a.next(i) : a.next();
-        if (g.done) { break; }
-        o = g.value;
+    while ((o = computer.output()) !== null) {
+        r = o;
     }
 
-    console.log(o);
+    console.log(r);
 }
 
 function part1(program: IntcodeProgram) {
@@ -33,5 +30,5 @@ function part2(program: IntcodeProgram) {
 
 const { program } = await parse();
 
-part1(program.slice());
-part2(program.slice());
+part1(program);
+part2(program);

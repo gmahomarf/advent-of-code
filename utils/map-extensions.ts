@@ -6,7 +6,7 @@ interface Map<K, V> {
 Object.defineProperties(Map.prototype, {
     getOrDefault: {
         value: function <K, V>(this: Map<K, V>, key: K, def: V): V {
-            return this.has(key) ? this.get(key)! : def;
+            return this.has(key) ? this.get(key)! : (this.set(key, def), def);
         }
     },
     toJSON: {

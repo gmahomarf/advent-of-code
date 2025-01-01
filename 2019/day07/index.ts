@@ -1,6 +1,6 @@
 
-import { getExampleInput, getInput, range, argMax, argWrap, permutations } from '../../utils/index';
-import { intcode, IntcodeProgram } from '../intcode';
+import { getExampleInput, getInput, range, argWrap, permutations, argMax } from '../../utils/index';
+import { IntcodeComputer, IntcodeProgram } from '../intcode';
 
 async function parse() {
     const input = await getInput();
@@ -10,52 +10,52 @@ async function parse() {
     };
 }
 
-type Amplifier = ReturnType<typeof intcode>;
+type Amplifier = IntcodeComputer;
 
 function run(program: IntcodeProgram, init: number, phases: number[]) {
     const amplifiers: Amplifier[] = [
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
     ];
 
     amplifiers.forEach((a, i) => {
-        a.next();
-        a.next(phases[i]);
+        a.start(phases[i]);
     });
 
-    return phases.reduce((inp, _p, i) => amplifiers[i].next(inp).value!, init);
+    let v: number = init;
+
+    for (const i in phases) {
+        v = amplifiers[i].input(v).output()!;
+    }
+
+    return v;
 }
 
 function run2(program: IntcodeProgram, init: number, phases: number[]) {
     const amplifiers: Amplifier[] = [
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
-        intcode(program.slice()),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
+        new IntcodeComputer(program),
     ];
 
     amplifiers.forEach((a, i) => {
-        a.next();
-        a.next(phases[i]);
+        a.start(phases[i]);
     });
 
     let input = init;
     for (let i = 0; ; i = (i + 1) % 5) {
-        let o = amplifiers[i].next(input);
+        let o = amplifiers[i].input(input).output();
 
-        if (Number.isNaN(o.value)) {
-            o = amplifiers[i].next(input);
-        }
-
-        if (o.done) {
+        if (o === null) {
             break;
         }
 
-        input = o.value;
+        input = o;
     }
 
     return input;
@@ -63,14 +63,14 @@ function run2(program: IntcodeProgram, init: number, phases: number[]) {
 
 function part1(program: IntcodeProgram) {
     const perms = permutations(range(0, 4));
-    const [max, maxArg] = argMax((phases: number[]) => run(program, 0, phases), argWrap(perms));
-    console.log(max, maxArg);
+    const [max] = argMax((phases: number[]) => run(program, 0, phases), argWrap(perms));
+    console.log(max);
 }
 
 function part2(program: IntcodeProgram) {
     const perms = permutations(range(5, 9));
-    const [max, maxArg] = argMax((phases: number[]) => run2(program, 0, phases), argWrap(perms));
-    console.log(max, maxArg);
+    const [max] = argMax((phases: number[]) => run2(program, 0, phases), argWrap(perms));
+    console.log(max);
 }
 
 const { program } = await parse();
