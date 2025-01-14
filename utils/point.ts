@@ -1,5 +1,11 @@
 export type PointLike = Pick<Point, 'x' | 'y'>;
 
+const ADJACENT_POINTS: PointLike[] = [
+    { x: 0, y: -1 }, // Above
+    { x: 0, y: 1 }, // Below
+    { x: 1, y: 0 }, // Right
+    { x: -1, y: 0 }, // Left
+];
 export class Point {
     constructor(public x = 0, public y = 0) {
     }
@@ -120,6 +126,10 @@ export class Point {
         }
         return new Point(this.x - pointOrX.x, this.y - pointOrX.y);
     }
+
+    getAdjacent(): Point[] {
+        return ADJACENT_POINTS.map(ap => this.plus(ap.x, ap.y));
+    }
 }
 
 export enum Direction {
@@ -152,4 +162,11 @@ export const DIRECTIONS_MAP: Record<Direction | DirectionArrow, Point> = {
     [DirectionArrow.Right]: new Point(1, 0),
     [DirectionArrow.Down]: new Point(0, 1),
     [DirectionArrow.Left]: new Point(-1, 0),
+};
+
+export const POINT_TO_ARROW_MAP: Record<string, DirectionArrow> = {
+    [new Point(0, -1).toString()]: DirectionArrow.Up,
+    [new Point(1, 0).toString()]: DirectionArrow.Right,
+    [new Point(0, 1).toString()]: DirectionArrow.Down,
+    [new Point(-1, 0).toString()]: DirectionArrow.Left,
 };
